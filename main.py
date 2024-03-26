@@ -36,5 +36,3 @@ Introduce los siguientes datos\n
             int (input("Cantidad de litros: "))
         elif i == 4:
             break
-        
-    
