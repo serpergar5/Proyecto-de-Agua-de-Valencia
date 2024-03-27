@@ -15,24 +15,27 @@ Elige una opción:
 ))
 
 if menu == 1:
-    
+
     i = 0
     print("""
 
 Introduce los siguientes datos\n
 ------------------------------
 """)
-    
+
     calidad_del_agua = ["Potable", "Alta", "Media", "Baja", "No Potabilizable"]
-    
-    
+
     while i >= 0:
-        i += 1
-        if i == 1:
+        if i == 0:
             (input("Introdudce el identificador: "))
+            i += 1
+        elif i == 1:
+            calidad = input("Escoge la calidad que tiene el río " + str(calidad_del_agua) + ": ")
+            if calidad in calidad_del_agua:
+                i += 1
+            else: print("Introduce una calidad válida.")
         elif i == 2:
-            (input("Escoge la calidad que tiene el río " + str(calidad_del_agua) + ": "))
-        elif i == 3:
             int (input("Cantidad de litros: "))
-        elif i == 4:
+            i += 1
+        elif i == 3:
             break
