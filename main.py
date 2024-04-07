@@ -151,8 +151,18 @@ def menu1_modificar():
                     fuentes_hidricas,
                 )
             else:
-            
-                i += 1
+                que_modifica = input("¿Quieres modificar la calidad, los litros, o quieres dar de baja?: ").title()
+                if que_modifica == "Calidad":
+                    i += 1
+                elif que_modifica == "Litros":
+                    i += 2
+                elif que_modifica == "Dar De Baja":
+                    for dato_usuarios in datos_usuarios:
+                        if dato_usuarios["Fuente hídrica"] == que_identificador:
+                            datos_usuarios.remove(dato_usuarios)
+                            print("Datos para " + que_identificador  + " eliminados.")
+                            menu()
+                
 
         if i == 1:
             calidad = input(
@@ -161,7 +171,7 @@ def menu1_modificar():
             if calidad not in calidad_del_agua:
                 print("Introduce una calidad válida.")
             else:
-                i += 1
+                break
 
         if i == 2:
             litros = (input("Cantidad de litros: ")).strip()
