@@ -17,6 +17,7 @@ def alta():
                 print(variables.centros_distribucion)
             que_identificador = input("Introduce el identificador: ").upper()
             comprobar_si_existe = False
+            
             if que_identificador not in variables.centros_distribucion:
 
                 comprobar_si_existe = any(
@@ -41,19 +42,16 @@ def alta():
 
         if i == 1:
             reserva_max = (
-                input(
-                    "Ingresa la capacidad máxima de reserva del centro de distribución "
-                ).title()
-                + ": "
-            )
+                int(input(
+                    "Ingresa la capacidad máxima de reserva del centro de distribución: "
+                )))
             if reserva_max <= 0:
                 (print("Por favor, introduce una capcidad de reserva valida."))
             else:
                 reserva_actual = (
-                    input(
-                        "Ingresa la reserva de agua actual del centro de distribución "
-                    ).title()
-                    + ": "
+                    int(input(
+                        "Ingresa la reserva de agua actual del centro de distribución: "
+                    ).title())
                 )
                 if reserva_actual < 0 and reserva_actual >= reserva_max :
                     (print("Por favor, introduce una capcidad de reserva valida."))

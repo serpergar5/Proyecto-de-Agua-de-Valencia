@@ -11,14 +11,12 @@ def alta():
         if i == 0:
             if mostrar_listado == "Sí":
                 print(variables.plantas_potabilizadoras)
-            que_identificador = input("Introduce el identificador: ").title()
+            que_identificador = input("Introduce el identificador: ").upper()
+            comprobar_si_existe = False
+            
             if que_identificador not in variables.plantas_potabilizadoras:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.plantas_potabilizadoras,
-                )
 
-            comprobar_si_existe = any(dato_usuarios["Planta potabilizadora"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
+                comprobar_si_existe = any(dato_usuarios["Planta potabilizadora"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
 
             if comprobar_si_existe:
                 print(
@@ -40,9 +38,9 @@ def alta():
                 input(
                     "Ingresa la eficiencia de la planta potabilizadora "
                     + str(variables.eficiencia)
-                ).title()
+                .title()
                 + ": "
-            )
+            ).title())
             if eficiencia not in variables.eficiencia:
                 (
                     print(
@@ -62,7 +60,7 @@ def alta():
                 i += 1
 
         if i == 3:
-            variables.plantas_potabilizadoras.append(
+            variables.plantas_potabilizadoras_usuarios.append(
                 {
                     "Planta potabilizadora": que_identificador,
                     "Eficiencia": eficiencia,
@@ -93,22 +91,13 @@ def modificar():
                 print(variables.plantas_potabilizadoras)
             que_identificador = input(
                 "Introduce el identificador que quieres modificar: "
-            ).title()
-            if que_identificador not in variables.plantas_potabilizadoras:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.plantas_potabilizadoras,
-                )
+            ).upper()
 
             comprobar_si_existe = any(
                 dato_usuarios["Planta potabilizadora"] == que_identificador
                 for dato_usuarios in variables.plantas_potabilizadoras_usuarios
             )
             if comprobar_si_existe == False:
-                print(
-                    "Introduce un identificador ya creado para modificarlo: "
-                    + str(variables.plantas_potabilizadoras_usuarios)
-                )
                 continue
 
             if que_identificador not in variables.plantas_potabilizadoras:

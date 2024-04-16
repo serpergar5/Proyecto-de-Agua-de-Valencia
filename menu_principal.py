@@ -61,7 +61,7 @@ Elige una opción:
                     print("Por favor, selecciona una opción válida.")
 
     elif seleccion == 3:
-        if len(variables.plantas_potabilizadoras_usuarios) == 0:
+        if len(variables.centros_distribucion_usuarios) == 0:
             menu_3.alta()
         else:
             while True:

@@ -12,14 +12,13 @@ def alta():
         if i == 0:
             if mostrar_listado == "Sí":
                 print(variables.fuentes_hidricas)
-            que_identificador = input("Introduce el identificador: ").title()
+            que_identificador = input("Introduce el identificador: ").upper()
+            comprobar_si_existe = False
+
             if que_identificador not in variables.fuentes_hidricas:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.fuentes_hidricas,
-                )
                 
-            comprobar_si_existe = any(dato_usuarios["Fuente hídrica"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
+                comprobar_si_existe = any(dato_usuarios["Fuente hídrica"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
+            
             if comprobar_si_existe:
                 print("Ya has introducido datos para esta fuente hídrica. Introduce otro identificador de la lista." + str(variables.fuentes_hidricas))
                 continue
@@ -80,22 +79,13 @@ def modificar():
         if i == 0:
             if mostrar_listado == "Sí":
                 print(variables.fuentes_hidricas)
-            que_identificador = input("Introduce el identificador que quieres modificar: ").title()
-            if que_identificador not in variables.fuentes_hidricas:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.fuentes_hidricas,
-                )
-
+            que_identificador = input("Introduce el identificador que quieres modificar: ").upper()
+            
             comprobar_si_existe = any(
                 dato_usuarios["Fuente hídrica"] == que_identificador
                 for dato_usuarios in variables.fuentes_hidricas_usuarios
-            )
+        )
             if comprobar_si_existe == False:
-                print(
-                    "Introduce un identificador ya creado para modificarlo: "
-                    + str(variables.fuentes_hidricas_usuarios)
-                )
                 continue
 
             if que_identificador not in variables.fuentes_hidricas:
