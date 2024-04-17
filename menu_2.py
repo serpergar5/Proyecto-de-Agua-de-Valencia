@@ -5,7 +5,7 @@ def alta():
     i = 0
 
     mostrar_listado = str(
-        input("¿Quieres ver el listado de plantas potabilizadoras disponibles? ").title())
+        input("¿Quieres ver el listado de plantas potabilizadoras disponibles?: ").title())
 
     while True:
         if i == 0:
@@ -14,13 +14,12 @@ def alta():
             que_identificador = input("Introduce el identificador: ").upper()
             comprobar_si_existe = False
             
-            if que_identificador not in variables.plantas_potabilizadoras:
-
-                comprobar_si_existe = any(dato_usuarios["Planta potabilizadora"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
-
+            comprobar_si_existe = any(dato_usuarios["Planta potabilizadora"] == que_identificador for dato_usuarios in variables.plantas_potabilizadoras_usuarios)
+            mostrar_listado = "No"
+            
             if comprobar_si_existe:
                 print(
-                    "Ya has introducido datos para esta planta potabilizadora. Introduce otro identificador de la lista."
+                    "Ya has introducido datos para esta planta potabilizadora. Introduce otro identificador de la lista. "
                     + str(variables.plantas_potabilizadoras)
                 )
                 continue

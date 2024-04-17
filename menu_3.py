@@ -18,16 +18,15 @@ def alta():
             que_identificador = input("Introduce el identificador: ").upper()
             comprobar_si_existe = False
             
-            if que_identificador not in variables.centros_distribucion:
-
-                comprobar_si_existe = any(
-                    dato_usuarios["Centro de distribución"] == que_identificador
-                    for dato_usuarios in variables.centros_distribucion_usuarios
+            comprobar_si_existe = any(
+                dato_usuarios["Centro de distribución"] == que_identificador
+                for dato_usuarios in variables.centros_distribucion_usuarios
                 )
+            mostrar_listado = "No"
 
             if comprobar_si_existe:
                 print(
-                    "Ya has introducido datos para este centro de distribución. Introduce otro identificador de la lista."
+                    "Ya has introducido datos para este centro de distribución. Introduce otro identificador de la lista: "
                     + str(variables.centros_distribucion)
                 )
                 continue
@@ -99,7 +98,7 @@ def modificar():
             if mostrar_listado == "Sí":
                 print(variables.centros_distribucion)
             que_identificador = input(
-                "Introduce el identificador que quieres modificar: "
+                "Introduce un identificador ya creado para modificarlo: "
             ).title()
             if que_identificador not in variables.centros_distribucion:
                 print(
@@ -107,15 +106,12 @@ def modificar():
                     variables.centros_distribucion,
                 )
 
+            mostrar_listado = "No"
             comprobar_si_existe = any(
                 dato_usuarios["Centro de distribución"] == que_identificador
                 for dato_usuarios in variables.centros_distribucion_usuarios
             )
             if comprobar_si_existe == False:
-                print(
-                    "Introduce un identificador ya creado para modificarlo: "
-                    + str(variables.centros_distribucion_usuarios)
-                )
                 continue
 
             if que_identificador not in variables.centros_distribucion:
