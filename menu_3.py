@@ -17,11 +17,11 @@ def alta():
                 print(variables.centros_distribucion)
             que_identificador = input("Introduce el identificador: ").upper()
             comprobar_si_existe = False
-            
+
             comprobar_si_existe = any(
                 dato_usuarios["Centro de distribución"] == que_identificador
                 for dato_usuarios in variables.centros_distribucion_usuarios
-                )
+            )
             mostrar_listado = "No"
 
             if comprobar_si_existe:
@@ -40,19 +40,20 @@ def alta():
                 i += 1
 
         if i == 1:
-            reserva_max = (
-                int(input(
+            reserva_max = float(
+                input(
                     "Ingresa la capacidad máxima de reserva del centro de distribución: "
-                )))
+                )
+            )
             if reserva_max <= 0:
                 (print("Por favor, introduce una capcidad de reserva valida."))
             else:
-                reserva_actual = (
-                    int(input(
+                reserva_actual = float(
+                    input(
                         "Ingresa la reserva de agua actual del centro de distribución: "
-                    ).title())
+                    ).title()
                 )
-                if reserva_actual < 0 and reserva_actual >= reserva_max :
+                if reserva_actual < 0 and reserva_actual >= reserva_max:
                     (print("Por favor, introduce una capcidad de reserva valida."))
                 else:
                     i += 1
@@ -61,7 +62,7 @@ def alta():
             consumo = (input("Cantidad de litros que consume diariamente: ")).strip()
             if consumo == "":
                 print("Introduce una cifra valida")
-            elif int(consumo) < 0:
+            elif float(consumo) < 0:
                 print("Introduce una cifra valida")
             else:
                 i += 1
@@ -71,8 +72,8 @@ def alta():
                 {
                     "Centro de distribución": que_identificador,
                     "Capacidad máxima": reserva_max,
-                    "Reserva actual" : reserva_actual,
-                    "Consumo diario": consumo
+                    "Reserva actual": reserva_actual,
+                    "Consumo diario": consumo,
                 }
             )
             añadir_mas_datos = str(
@@ -135,27 +136,35 @@ def modificar():
                             print("Datos para " + que_identificador + " eliminados.")
                             menu_principal.menu()
                 if i == 1:
-                    reserva_max = int(input(
-                        "Escoge la capacidad máxima que admite el centro de distribución: "
-                    ).strip())
+                    reserva_max = float(
+                        input(
+                            "Escoge la capacidad máxima que admite el centro de distribución: "
+                        ).strip()
+                    )
                     if reserva_max <= 0:
                         print("Introduce una eficiencia válida.")
                     else:
                         i += 1
 
                 if i == 2:
-                    reserva_actual = int(input("Escoge la reseerva actual de agua que hay: ").strip())
+                    reserva_actual = float(
+                        input("Escoge la reseerva actual de agua que hay: ").strip()
+                    )
                     if reserva_actual == "":
                         print("Introduce una cifra valida")
                     elif reserva_actual > reserva_max:
-                        print("Introduce una cifra menor que la capacidad máxima admitida que es ") + str(reserva_max)
+                        print(
+                            "Introduce una cifra menor que la capacidad máxima admitida que es "
+                        ) + str(reserva_max)
                     else:
                         i += 1
-                if i ==3:
-                    consumo = (input("Cantidad de litros que consume diariamente: ")).strip()
+                if i == 3:
+                    consumo = (
+                        input("Cantidad de litros que consume diariamente: ")
+                    ).strip()
                     if consumo == "":
                         print("Introduce un consumo valida")
-                    elif int(consumo) <= 0:
+                    elif float(consumo) <= 0:
                         print("Introduce un consumo valido")
                     else:
                         i += 1
@@ -163,7 +172,7 @@ def modificar():
                     for dato_usuarios in variables.plantas_potabilizadoras_usuarios:
                         if dato_usuarios["Centro de distribución"] == que_identificador:
                             dato_usuarios["Capacidad máxima"] = reserva_max
-                            dato_usuarios["Reserva actual"] = reserva_actual,
+                            dato_usuarios["Reserva actual"] = (reserva_actual,)
                             dato_usuarios["Consumo diario"] = consumo
 
                     añadir_mas_datos = str(

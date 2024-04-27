@@ -2,9 +2,11 @@ import variables
 import menu_1
 import menu_2
 import menu_3
+import menu_4
+
 
 def menu():
-    seleccion = int(
+    seleccion = float(
         input(
             """
 Elige una opción:
@@ -76,3 +78,17 @@ Elige una opción:
                     break
                 else:
                     print("Por favor, selecciona una opción válida.")
+
+    elif seleccion == 4:
+        while True:
+            interconexion = input(
+                "¿Quieres dar de alta un centro de distribución o modificarlo? "
+            ).title()
+            if interconexion == "Fuente Planta":
+                menu_4.fuente_planta()
+                break
+            elif interconexion == "Planta Centro":
+                menu_4.planta_centro()
+                break
+            else:
+                print("Por favor, selecciona una opción válida.")

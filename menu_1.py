@@ -1,6 +1,7 @@
 import variables
 import menu_principal
 
+
 def alta():
     i = 0
 
@@ -15,11 +16,17 @@ def alta():
             que_identificador = input("Introduce el identificador: ").upper()
             comprobar_si_existe = False
 
-            comprobar_si_existe = any(dato_usuarios["Fuente hídrica"] == que_identificador for dato_usuarios in variables.fuentes_hidricas_usuarios)
+            comprobar_si_existe = any(
+                dato_usuarios["Fuente hídrica"] == que_identificador
+                for dato_usuarios in variables.fuentes_hidricas_usuarios
+            )
             mostrar_listado = "No"
 
             if comprobar_si_existe:
-                print("Ya has introducido datos para esta fuente hídrica. Introduce otro identificador de la lista." + str(variables.fuentes_hidricas))
+                print(
+                    "Ya has introducido datos para esta fuente hídrica. Introduce otro identificador de la lista."
+                    + str(variables.fuentes_hidricas)
+                )
                 continue
 
             if que_identificador not in variables.fuentes_hidricas:
@@ -32,18 +39,21 @@ def alta():
 
         if i == 1:
             calidad = input(
-                "Escoge la calidad que tiene el río " + str(variables.calidad_del_agua) + ": "
+                "Escoge la calidad que tiene el río "
+                + str(variables.calidad_del_agua)
+                + ": "
             ).title()
             if calidad not in variables.calidad_del_agua:
                 print("Introduce una calidad válida.")
             else:
+                calidad_valor = variables.calidad_del_agua_indice[calidad]
                 i += 1
 
         if i == 2:
             litros = (input("Cantidad de litros: ")).strip()
             if litros == "":
                 print("Introduce una cifra valida")
-            elif int(litros) <= 0:
+            elif float(litros) <= 0:
                 print("Introduce una cifra mayor a 0")
             else:
                 i += 1
@@ -52,8 +62,9 @@ def alta():
             variables.fuentes_hidricas_usuarios.append(
                 {
                     "Fuente hídrica": que_identificador,
-                    "Calidad": calidad, #TODO FIX Guarda como tupla
+                    "Calidad": calidad,  # TODO FIX Guarda como tupla
                     "Litros": litros,
+                    "Uso": calidad_valor,
                 }
             )
             añadir_mas_datos = str(
@@ -78,13 +89,15 @@ def modificar():
         if i == 0:
             if mostrar_listado == "Sí":
                 print(variables.fuentes_hidricas)
-            que_identificador = input("Introduce un identificador ya creado para modificarlo: ").upper()
-            
+            que_identificador = input(
+                "Introduce un identificador ya creado para modificarlo: "
+            ).upper()
+
             mostrar_listado = "No"
             comprobar_si_existe = any(
                 dato_usuarios["Fuente hídrica"] == que_identificador
                 for dato_usuarios in variables.fuentes_hidricas_usuarios
-        )
+            )
             if comprobar_si_existe == False:
                 continue
 
@@ -94,7 +107,9 @@ def modificar():
                     variables.fuentes_hidricas,
                 )
             else:
-                que_modifica = input("¿Quieres modificar la calidad, los litros, o quieres dar de baja?: ").title()
+                que_modifica = input(
+                    "¿Quieres modificar la calidad, los litros, o quieres dar de baja?: "
+                ).title()
                 if que_modifica == "Calidad":
                     i += 1
                 elif que_modifica == "Litros":
@@ -103,23 +118,26 @@ def modificar():
                     for dato_usuarios in variables.fuentes_hidricas_usuarios:
                         if dato_usuarios["Fuente hídrica"] == que_identificador:
                             variables.fuentes_hidricas_usuarios.remove(dato_usuarios)
-                            print("Datos para " + que_identificador  + " eliminados.")
+                            print("Datos para " + que_identificador + " eliminados.")
                             menu_principal.menu()
 
         if i == 1:
             calidad = input(
-                "Escoge la calidad que tiene el río " + str(variables.calidad_del_agua) + ": "
+                "Escoge la calidad que tiene el río "
+                + str(variables.calidad_del_agua)
+                + ": "
             ).title()
             if calidad not in variables.calidad_del_agua:
                 print("Introduce una calidad válida.")
             else:
+                calidad_valor = variables.calidad_del_agua_indice[calidad]
                 break
 
         if i == 2:
             litros = (input("Cantidad de litros: ")).strip()
             if litros == "":
                 print("Introduce una cifra valida")
-            elif int(litros) <= 0:
+            elif float(litros) <= 0:
                 print("Introduce una cifra mayor a 0")
             else:
                 i += 1
@@ -127,8 +145,9 @@ def modificar():
         if i == 3:
             for dato_usuarios in variables.fuentes_hidricas_usuarios:
                 if dato_usuarios["Fuente hídrica"] == que_identificador:
-                    dato_usuarios["Calidad"] = calidad,
-                    dato_usuarios["Litros"] = litros
+                    dato_usuarios["Calidad"] = (calidad,)
+                    dato_usuarios["Litros"] = (litros,)
+                    dato_usuarios["Uso"] = calidad_valor
 
             añadir_mas_datos = str(
                 input(
