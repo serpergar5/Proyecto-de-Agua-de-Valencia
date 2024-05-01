@@ -4,6 +4,8 @@ centros_distribucion_usuarios = []
 centros_interconectados = []
 fuentes_hidricas_intercontectables = []
 fuentes_hidricas_planta_potabilizadora = []
+interconexiones_fh = []
+interconexiones_pb = []
 
 fuentes_hidricas = ["FH1", "FH2", "FH3", "FH4", "FH5", "FH6", "FH7", "FH8", "FH9"]
 calidad_del_agua = ["Potable", "Alta", "Media", "Baja", "No Potabilizable"]

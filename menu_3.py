@@ -2,185 +2,139 @@ import variables
 import menu_principal
 
 
-def alta():
-    i = 0
-
-    mostrar_listado = str(
-        input(
-            "¿Quieres ver el listado de los centros de distribución disponibles? "
-        ).title()
+def mostrar_centros_distribucion():
+    print(
+        "\nListado de los centros de distribución disponibles: "
+        + ", ".join(variables.centros_distribucion)
+        + ": "
     )
 
+
+def solicitar_identificador_centro(alta):
     while True:
-        if i == 0:
-            if mostrar_listado == "Sí":
-                print(variables.centros_distribucion)
-            que_identificador = input("Introduce el identificador: ").upper()
-            comprobar_si_existe = False
+        que_identificador = input("Introduce el identificador del centro de distribución: ").upper()
+        existe_en_registros = any(
+            centro == que_identificador for centro in variables.centros_distribucion
+        )
+        existe_en_usuario = any(
+            centro_usuarios["Id"] == que_identificador
+            for centro_usuarios in variables.centros_distribucion_usuarios
+        )
+        if not existe_en_registros:
+            print("Identificador no encontrado. Intente de nuevo con un identificador de la lista de centros de distribución disponibles.")
+        elif existe_en_registros and not existe_en_usuario and alta:
+            return que_identificador
+        elif existe_en_registros and existe_en_usuario and not alta:
+            return que_identificador
+        elif existe_en_registros and existe_en_usuario and alta:
+            print("Este identificador ya está en uso para un centro de distribución. Introduce un identificador nuevo.")
+        elif existe_en_registros and not existe_en_usuario and not alta:
+            print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
 
-            comprobar_si_existe = any(
-                dato_usuarios["Centro de distribución"] == que_identificador
-                for dato_usuarios in variables.centros_distribucion_usuarios
-            )
-            mostrar_listado = "No"
+def alta_centro():
+    mostrar_centros_distribucion()
+    que_identificador = solicitar_identificador_centro(alta=True)
 
-            if comprobar_si_existe:
-                print(
-                    "Ya has introducido datos para este centro de distribución. Introduce otro identificador de la lista: "
-                    + str(variables.centros_distribucion)
-                )
-                continue
+    reserva_max = int(input("Ingresa la capacidad máxima de reserva del centro (litros): "))
+    while int(reserva_max) <= 0:
+        print("Por favor, introduce una capacidad válida mayor a 0.")
+        reserva_max = int(input(
+            "Ingresa la capacidad máxima de reserva del centro (litros): "
+        ))
 
-            if que_identificador not in variables.centros_distribucion:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.centros_distribucion,
-                )
-            else:
-                i += 1
+    reserva_actual = int(input("Ingresa la reserva actual del centro (litros): "))
+    while (int(reserva_actual) > int(reserva_max)):
+        print(
+            "Por favor, introduce una reserva válida que no exceda la capacidad máxima."
+        )
+        reserva_actual = int(input("Ingresa la reserva actual del centro (litros): "))
 
-        if i == 1:
-            reserva_max = float(
-                input(
-                    "Ingresa la capacidad máxima de reserva del centro de distribución: "
-                )
-            )
-            if reserva_max <= 0:
-                (print("Por favor, introduce una capcidad de reserva valida."))
-            else:
-                reserva_actual = float(
-                    input(
-                        "Ingresa la reserva de agua actual del centro de distribución: "
-                    ).title()
-                )
-                if reserva_actual < 0 and reserva_actual >= reserva_max:
-                    (print("Por favor, introduce una capcidad de reserva valida."))
-                else:
-                    i += 1
+    consumo = int(input("Cantidad de litros que consume diariamente el centro: "))
+    while int(consumo) <= 0 or int(consumo) > int(reserva_max):
+        print("Introduce un consumo válido y que no exceda la capacidad máxima del centro.")
+        consumo = int(input("Cantidad de litros que consume diariamente el centro: "))
 
-        if i == 2:
-            consumo = (input("Cantidad de litros que consume diariamente: ")).strip()
-            if consumo == "":
-                print("Introduce una cifra valida")
-            elif float(consumo) < 0:
-                print("Introduce una cifra valida")
-            else:
-                i += 1
-
-        if i == 3:
-            variables.centros_distribucion.append(
-                {
-                    "Centro de distribución": que_identificador,
-                    "Capacidad máxima": reserva_max,
-                    "Reserva actual": reserva_actual,
-                    "Consumo diario": consumo,
-                }
-            )
-            añadir_mas_datos = str(
-                input(
-                    "¿Quieres darme los datos de otra planta potabilizadora o salir al menu principal?: "
-                )
-            )
-            if añadir_mas_datos == "Dar más datos":
-                i = 0
-            else:
-                menu_principal.menu()
+    variables.centros_distribucion_usuarios.append(
+        {
+            "Id": que_identificador,
+            "Capacidad máxima": int(reserva_max),
+            "Reserva actual": int(reserva_actual),
+            "Consumo diario": int(consumo),
+        }
+    )
+    print("Centro de distribución añadido correctamente.")
 
 
 def modificar():
-    i = 0
+    mostrar_centros_distribucion()
+    que_identificador = solicitar_identificador_centro()
 
-    mostrar_listado = str(
-        input("¿Quieres ver el listado de los centros de distribución disponibles? ")
-    ).title()
+    modifica_o_baja = input(
+        "¿Quieres modificar o dar de baja este centro? (Modificar/Baja) "
+    ).lower()
+    if modifica_o_baja == "baja":
+        variables.centros_distribucion_usuarios = [
+            centro
+            for centro in variables.centros_distribucion_usuarios
+            if centro["Id"] != que_identificador
+        ]
+        print("Centro de distribución eliminado correctamente.")
+        return
 
+    if modifica_o_baja == "modificar":
+        actualizar_centro(que_identificador)
+
+
+def actualizar_centro(que_identificador):
+    reserva_max = input("Nueva capacidad máxima de reserva (litros): ")
+    while int(reserva_max) <= 0:
+        print("Introduce una capacidad máxima válida mayor a 0.")
+        reserva_max = input("Nueva capacidad máxima de reserva (litros): ")
+
+    reserva_actual = input("Nueva reserva actual (litros): ")
+    while (int(reserva_actual) > int(reserva_max)):
+        print("Introduce una reserva actual válida que no exceda la capacidad máxima.")
+        reserva_actual = input("Nueva reserva actual (litros): ")
+
+    consumo = input("Nueva cantidad de litros que consume diariamente el centro: ")
+    while int(consumo) <= 0 or int(consumo) > (reserva_max):
+        print("Introduce un consumo válido y que no exceda la capacidad máxima del centro.")
+        consumo = input("Nueva cantidad de litros que consume diariamente el centro: ")
+
+    for centro in variables.centros_distribucion_usuarios:
+        if centro["Id"] == que_identificador:
+            centro["Capacidad máxima"] = int(reserva_max)
+            centro["Reserva actual"] = int(reserva_actual)
+            centro["Consumo diario"] = int(consumo)
+            print("Información actualizada correctamente.")
+            break
+
+
+def menu_centro_distribucion():
     while True:
-        if i == 0:
-            if mostrar_listado == "Sí":
-                print(variables.centros_distribucion)
-            que_identificador = input(
-                "Introduce un identificador ya creado para modificarlo: "
-            ).title()
-            if que_identificador not in variables.centros_distribucion:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.centros_distribucion,
-                )
-
-            mostrar_listado = "No"
-            comprobar_si_existe = any(
-                dato_usuarios["Centro de distribución"] == que_identificador
-                for dato_usuarios in variables.centros_distribucion_usuarios
-            )
-            if comprobar_si_existe == False:
-                continue
-
-            if que_identificador not in variables.centros_distribucion:
-                print(
-                    "Por favor, introduce un identificador de la siguiente lista: ",
-                    variables.centros_distribucion,
-                )
+        if variables.centros_distribucion_usuarios == []:
+            opcion = input(
+                "\n¿Quieres dar de alta un centro de distribución o salir al menú principal? "
+            ).lower()
+            if opcion == "dar de alta":
+                alta_centro()
+            elif opcion == "salir al menú principal":
+                return  # Regresa al menú principal
             else:
-                modifica_o_baja = input(
-                    "¿Quieres modificar o dar de baja un centro de distribución?"
-                ).title()
-                if modifica_o_baja == "Modificar":
-                    i == 1
+                print("Por favor, selecciona una opción válida.")
+        else:
+            opcion = input(
+                "\n¿Quieres dar de alta un centro de distribución, modificar uno existente, o salir al menú principal? "
+            ).lower()
+            if opcion == "dar de alta":
+                alta_centro()
+            elif opcion == "modificar":
+                modificar()
+            elif opcion == "salir al menú principal":
+                return  # Regresa al menú principal
+            else:
+                print("Por favor, selecciona una opción válida.")
 
-                elif modifica_o_baja == "Dar De Baja":
-                    for dato_usuarios in variables.centros_distribucion_usuarios:
-                        if dato_usuarios["Centro de distribución"] == que_identificador:
-                            variables.centros_distribucion_usuarios.remove(
-                                dato_usuarios
-                            )
-                            print("Datos para " + que_identificador + " eliminados.")
-                            menu_principal.menu()
-                if i == 1:
-                    reserva_max = float(
-                        input(
-                            "Escoge la capacidad máxima que admite el centro de distribución: "
-                        ).strip()
-                    )
-                    if reserva_max <= 0:
-                        print("Introduce una eficiencia válida.")
-                    else:
-                        i += 1
-
-                if i == 2:
-                    reserva_actual = float(
-                        input("Escoge la reseerva actual de agua que hay: ").strip()
-                    )
-                    if reserva_actual == "":
-                        print("Introduce una cifra valida")
-                    elif reserva_actual > reserva_max:
-                        print(
-                            "Introduce una cifra menor que la capacidad máxima admitida que es "
-                        ) + str(reserva_max)
-                    else:
-                        i += 1
-                if i == 3:
-                    consumo = (
-                        input("Cantidad de litros que consume diariamente: ")
-                    ).strip()
-                    if consumo == "":
-                        print("Introduce un consumo valida")
-                    elif float(consumo) <= 0:
-                        print("Introduce un consumo valido")
-                    else:
-                        i += 1
-                if i == 4:
-                    for dato_usuarios in variables.plantas_potabilizadoras_usuarios:
-                        if dato_usuarios["Centro de distribución"] == que_identificador:
-                            dato_usuarios["Capacidad máxima"] = reserva_max
-                            dato_usuarios["Reserva actual"] = (reserva_actual,)
-                            dato_usuarios["Consumo diario"] = consumo
-
-                    añadir_mas_datos = str(
-                        input(
-                            "¿Quieres darme los datos de otra planta potabilizadora o salir al menu principal?: "
-                        )
-                    )
-                    if añadir_mas_datos == "Dar más datos":
-                        i = 0
-                    else:
-                        menu_principal.menu()
+if __name__ == "__main__":
+    menu_centro_distribucion()
+    menu_principal.menu_principal()

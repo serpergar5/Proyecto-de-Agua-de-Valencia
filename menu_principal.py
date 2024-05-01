@@ -1,14 +1,12 @@
-import variables
 import menu_1
 import menu_2
 import menu_3
 import menu_4
 
 
-def menu():
-    seleccion = float(
-        input(
-            """
+def mostrar_menu():
+    print(
+        """
 Elige una opción:
 -----------------
 1) Fuente hídrica
@@ -19,76 +17,51 @@ Elige una opción:
 6) Info sistema
 7) Ficheros
 0) Salir
-
 """
-        )
     )
 
-    if seleccion == 0:
-        print("Hasta luego")
-        exit()
 
-    elif seleccion == 1:
-        if len(variables.fuentes_hidricas_usuarios) == 0:
-            menu_1.alta()
-        else:
-            while True:
-                modificar_alta = input(
-                    "¿Quieres dar de alta una fuente hídrica o modificarla? "
-                ).title()
-                if modificar_alta == "Dar De Alta":
-                    menu_1.alta()
-                    break
-                elif modificar_alta == "Modificarla":
-                    menu_1.modificar()
-                    break
-                else:
-                    print("Por favor, selecciona una opción válida.")
-
-    elif seleccion == 2:
-        if len(variables.plantas_potabilizadoras_usuarios) == 0:
-            menu_2.alta()
-        else:
-            while True:
-                modificar_alta = input(
-                    "¿Quieres dar de alta una planta potabilizadora o modificarla? "
-                ).title()
-                if modificar_alta == "Dar De Alta":
-                    menu_2.alta()
-                    break
-                elif modificar_alta == "Modificarla":
-                    menu_2.modificar()
-                    break
-                else:
-                    print("Por favor, selecciona una opción válida.")
-
-    elif seleccion == 3:
-        if len(variables.centros_distribucion_usuarios) == 0:
-            menu_3.alta()
-        else:
-            while True:
-                modificar_alta = input(
-                    "¿Quieres dar de alta un centro de distribución o modificarlo? "
-                ).title()
-                if modificar_alta == "Dar De Alta":
-                    menu_2.alta()
-                    break
-                elif modificar_alta == "Modificarla":
-                    menu_2.modificar()
-                    break
-                else:
-                    print("Por favor, selecciona una opción válida.")
-
-    elif seleccion == 4:
-        while True:
-            interconexion = input(
-                "¿Quieres conectar una fuente hídrica o una planta potabilizadora? "
-            ).title()
-            if interconexion == "Fuente Planta":
-                menu_4.fuente_planta()
-                break
-            elif interconexion == "Planta Centro":
-                menu_4.planta_centro()
-                break
+def solicitar_seleccion():
+    while True:
+        try:
+            seleccion = int(input("Ingresa tu elección: "))
+            if 0 <= seleccion <= 7:
+                return seleccion
             else:
-                print("Por favor, selecciona una opción válida.")
+                print("Por favor, ingresa un número entre 0 y 7.")
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+
+
+def procesar_opcion(seleccion):
+    if seleccion == 0:
+        print("Hasta luego.")
+        exit()
+    elif seleccion == 1:
+        menu_1.menu_fuente_hidrica()
+    elif seleccion == 2:
+        menu_2.menu_planta_potabilizadora()
+    elif seleccion == 3:
+        menu_3.menu_centro_distribucion()
+    elif seleccion == 4:
+        menu_4.menu_interconexion()
+    elif seleccion == 5:
+        # Código para manejar 'Días'
+        pass
+    elif seleccion == 6:
+        # Código para manejar 'Info sistema'
+        pass
+    elif seleccion == 7:
+        # Código para manejar 'Ficheros'
+        pass
+
+
+def menu_principal():
+    while True:
+        mostrar_menu()
+        seleccion = solicitar_seleccion()
+        procesar_opcion(seleccion)
+
+
+if __name__ == "__main__":
+    menu_principal()
