@@ -1,5 +1,4 @@
-﻿![ref1] ![ref2]
-
+﻿
 **08GIIN Metodología de Programación** 
 
 **Proyecto Agua de Valencia**  
@@ -40,11 +39,6 @@ Datos de ejemplo:
 
 "Ebro", "Media", 100000 "Carboneras", "Baja", 10000 
 
-**- 1-** 
-
-Versión 1.0 05/03/2024
-![ref1] ![ref2]
-
 2. **Modificación** 
 
    Se pedirá al usuario el identificador o se le dará la opción de listar todas las fuentes que hay en sistema (mostrando los identificadores). 
@@ -80,11 +74,6 @@ Datos ejemplo:
    En el caso de pedir listado, después de este se pedirá al usuario un identificador. 
 
    Una  vez  seleccionada  la  planta,  se  pedirá  que  quiere  hacer  con  ella:  Cambio (modificar eficiencia y/o cantidad), dar de baja (quitar del sistema). 
-
-**- 2-** 
-
-Versión 1.0 05/03/2024
-![ref1] ![ref2]
 
 3) **Centro de distribución**  
 1. **Alta** 
@@ -125,11 +114,6 @@ Datos ejemplo:
    Se le pedirá la **capacidad** en % de la interconexión (Entero > 0 y <=100). 
 
 Se debe comprobar que la capacidad asignada no supere el 100% con las otras  interconexiones  existentes,  de  superar  el  100%  debe  darse  un mensaje de alerta y realizar la interconexión con el % disponible. 
-
-**- 3-** 
-
-Versión 1.0 05/03/2024
-![ref1] ![ref2]
 
 De forma automática se asignará un **identificador** a la interconexión que será compuesto por el id del origen, guion alto, el id del destino, guion alto y un número correlativo (empezando por 1 hasta un máximo de 100). 
 
@@ -172,11 +156,6 @@ Muestra la información del estado completo del sistema actual agrupado por:
 
 -Interconexiones 
 
-**- 4-** 
-
-Versión 1.0 05/03/2024
-![ref1] ![ref2]
-
 7) **Ficheros** 
 1. **Cargar datos** 
 
@@ -208,11 +187,6 @@ Sale del programa.
 
 **Se requiere documentar el código y será parte de la nota.** 
 
-**- 5-** 
-
-Versión 1.0 05/03/2024
-![ref1] ![ref2]
-
 **Ampliación:** 
 
 Algunos de vosotros tenéis un conocimiento mayor del Python y de programación. Podéis complicar un poco el proyecto añadiendo alguna funcionalidad adicional. Lo consideraré como trabajo extra y será considerado para redondear la nota final. Los cambios no deben modificar la funcionalidad básica (la descrita en esta actividad), o en ese caso la ampliación puede hacer que la nota sea menor a 10 por no cumplir lo que se pide. Ejemplo de posible ampliación: hacer los menús de interacción de usuario especialmente trabajados. 
@@ -236,9 +210,3 @@ Entrega el esquema/documentación y la lógica interna funcionando (menú del 1 
 O llegar hasta los puntos 5 y 6 el menú. 
 
 O una entrega completa, y si hay errores se podrá volver a entregar para mejorar nota. 
-**- 6-** 
-
-Versión 1.0 05/03/2024
-
-[ref1]: Aspose.Words.f0fb81b9-60a0-47f0-a4e6-e16dae683f15.001.png
-[ref2]: Aspose.Words.f0fb81b9-60a0-47f0-a4e6-e16dae683f15.002.png
