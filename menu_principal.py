@@ -82,7 +82,7 @@ Elige una opción:
     elif seleccion == 4:
         while True:
             interconexion = input(
-                "¿Quieres dar de alta un centro de distribución o modificarlo? "
+                "¿Quieres conectar una fuente hídrica o una planta potabilizadora? "
             ).title()
             if interconexion == "Fuente Planta":
                 menu_4.fuente_planta()
