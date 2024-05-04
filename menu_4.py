@@ -45,8 +45,11 @@ def eliminar_interconexion(interconexiones, interc):
 def mostrar_recursos_disponibles(recursos):
     if recursos:
         print("\nListado de recursos disponibles para interconexión:")
-        for recurso in recursos:
-            print(recurso['Id'])
+        for i, recurso in enumerate(recursos):
+            if i < len(recursos) - 1:
+                print(recurso['Id'], end=', ')
+            else:
+                print(recurso['Id'])
     else:
         print("No hay recursos disponibles para interconexión. Asegúrate de haber añadido recursos antes de intentar interconectarlos.")
         return False
@@ -57,6 +60,11 @@ def seleccionar_recurso(mensaje, recursos_destino):
         print(mensaje)
         id_recurso = input("Introduce el identificador del recurso: ").upper()
         if any(r["Id"] == id_recurso for r in recursos_destino):
+            for i, recursos_destino in enumerate():
+                if i < len(recursos_destino) - 1:
+                    print(recursos_destino["Id"], end=", ")
+                else:
+                    print(recursos_destino["Id"])
             return id_recurso
         print("Identificador no válido. Intente de nuevo.")
 
@@ -75,14 +83,14 @@ def agregar_interconexion(id_origen, id_destino, capacidad, interconexiones, tip
     nuevo_id = id_origen + "-" + id_destino + "-" + str(len(interconexiones) + 1)
     if tipo == "FH":
         variables.interconexiones_fh.append({
-            "id": nuevo_id,
+            "Id": nuevo_id,
             "origen": id_origen,
             "destino": id_destino,
             "capacidad": capacidad,
         })
     else:
         variables.interconexiones_pb.append({
-            "id": nuevo_id,
+            "Id": nuevo_id,
             "origen": id_origen,
             "destino": id_destino,
             "capacidad": capacidad,
@@ -114,12 +122,19 @@ def menu_interconexion():
             print("Primero tienes que añadir datos antes de interconectarlos.")
             return
 
-        accion = input(
-            "¿Deseas crear una nueva interconexión, editar o eliminar una existente? (Crear/Editar/Eliminar): "
-        ).capitalize()
+        if tipo == "FH" and variables.interconexiones_fh == []:
+            accion = "Crear"
+        elif tipo == "PB" and variables.interconexiones_pb == []:
+            accion = "Crear"
+        else:
+            accion = input(
+                "¿Deseas crear una nueva interconexión, editar o eliminar una existente? (Crear/Editar/Eliminar): "
+            ).capitalize()
+        
+        
         if accion == "Crear":
-            origen = seleccionar_recurso("Selecciona el recurso de origen:", recursos)
-            destino = seleccionar_recurso("Selecciona el recurso de destino:", recursos_destino)
+            origen = seleccionar_recurso("Selecciona el recurso de origen", recursos)
+            destino = seleccionar_recurso("Selecciona el recurso de destino", recursos_destino)
             capacidad = int(
                 input("Introduce el porcentaje de la interconexión (1-100): ")
             )
