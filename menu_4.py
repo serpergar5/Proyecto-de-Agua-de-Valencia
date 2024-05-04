@@ -97,16 +97,16 @@ def agregar_interconexion(id_origen, id_destino, porcentaje, interconexiones, ti
     if tipo == "FH":
         variables.interconexiones_fh.append({
             "Id": nuevo_id,
-            "origen": id_origen,
-            "destino": id_destino,
-            "porcentaje": porcentaje,
+            "Origen": id_origen,
+            "Destino": id_destino,
+            "Porcentaje": porcentaje,
         })
     else:
         variables.interconexiones_pb.append({
             "Id": nuevo_id,
-            "origen": id_origen,
-            "destino": id_destino,
-            "porcentaje": porcentaje,
+            "Origen": id_origen,
+            "Destino": id_destino,
+            "Porcentaje": porcentaje,
         }) 
     print("Interconexión " + nuevo_id + " agregada con éxito.")
 

@@ -2,6 +2,7 @@ import menu_1
 import menu_2
 import menu_3
 import menu_4
+import menu_5
 
 
 def mostrar_menu():
@@ -46,7 +47,7 @@ def procesar_opcion(seleccion):
     elif seleccion == 4:
         menu_4.menu_interconexion()
     elif seleccion == 5:
-        # Código para manejar 'Días'
+        menu_5.menu_dias()
         pass
     elif seleccion == 6:
         # Código para manejar 'Info sistema'
