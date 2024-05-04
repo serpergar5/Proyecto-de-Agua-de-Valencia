@@ -4,8 +4,16 @@ import menu_principal
 def mostrar_interconexiones(interconexiones):
     if interconexiones:
         print("\nListado de interconexiones existentes:")
+
+        capacidad_usada_por_origen = {}
         for interc in interconexiones:
-            print(interc['Id'] + ": " + interc['origen'] + " a " + interc['destino'] + " - " + str(interc['capacidad']) + "%")
+            if interc['origen'] not in capacidad_usada_por_origen:
+                capacidad_usada_por_origen[interc['origen']] = 0
+            capacidad_usada_por_origen[interc['origen']] += interc['porcentaje']
+        
+        for interc in interconexiones:
+            if capacidad_usada_por_origen[interc['origen']] < 100:
+                print(interc['Id'] + ": " + interc['origen'] + " a " + interc['destino'] + " - " + str(interc['porcentaje']) + "%")
     else:
         print("No hay interconexiones registradas.")
         return False
@@ -33,7 +41,7 @@ def modificar_interconexion(interc):
         nueva_capacidad = int(
             input("Introduce el nuevo porcentaje de la interconexión (1-100): ")
         )
-    interc["capacidad"] = nueva_capacidad
+    interc["porcentaje"] = nueva_capacidad
     print("Interconexión actualizada con éxito.")
 
 
@@ -55,45 +63,50 @@ def mostrar_recursos_disponibles(recursos):
         return False
     return True
 
-def seleccionar_recurso(mensaje, recursos_destino):
+def seleccionar_recurso(mensaje, recursos):
+    print(mensaje)
+
+    if recursos:
+        ids_disponibles = ", ".join(recurso["Id"] for recurso in recursos)
+        print("Recursos disponibles: " + ids_disponibles)
+    else:
+        print("No hay recursos disponibles.")
+        return None
+
     while True:
-        print(mensaje)
         id_recurso = input("Introduce el identificador del recurso: ").upper()
-        if any(r["Id"] == id_recurso for r in recursos_destino):
-            for i, recursos_destino in enumerate():
-                if i < len(recursos_destino) - 1:
-                    print(recursos_destino["Id"], end=", ")
-                else:
-                    print(recursos_destino["Id"])
+        if any(recurso["Id"] == id_recurso for recurso in recursos):
             return id_recurso
         print("Identificador no válido. Intente de nuevo.")
 
-def validar_capacidad_interconexion(id_origen, id_destino, capacidad, interconexiones):
+
+def validar_capacidad_interconexion(id_origen, id_destino, porcentaje, interconexiones):
     uso_actual = sum(
-        interc['capacidad'] for interc in interconexiones
+        interc['porcentaje'] for interc in interconexiones
         if interc['origen'] == id_origen and interc['destino'] == id_destino
     )
     capacidad_disponible = 100 - uso_actual
-    if capacidad > capacidad_disponible:
-        print("La capacidad total de interconexión excede el 100%. Solo puedes asignar hasta un " + str(capacidad_disponible) + "% adicional.")
-        return capacidad_disponible
-    return capacidad
+    if porcentaje > capacidad_disponible:
+        while porcentaje > capacidad_disponible:
+            print("El porcentaje total de interconexión excede el 100%. Solo puedes asignar hasta un " + str(capacidad_disponible) + "% adicional.")
+            porcentaje = int(input("Introduce un porcentaje igual o menor a " + str(capacidad_disponible) + "%: "))
+    return porcentaje
 
-def agregar_interconexion(id_origen, id_destino, capacidad, interconexiones, tipo):
+def agregar_interconexion(id_origen, id_destino, porcentaje, interconexiones, tipo):
     nuevo_id = id_origen + "-" + id_destino + "-" + str(len(interconexiones) + 1)
     if tipo == "FH":
         variables.interconexiones_fh.append({
             "Id": nuevo_id,
             "origen": id_origen,
             "destino": id_destino,
-            "capacidad": capacidad,
+            "porcentaje": porcentaje,
         })
     else:
         variables.interconexiones_pb.append({
             "Id": nuevo_id,
             "origen": id_origen,
             "destino": id_destino,
-            "capacidad": capacidad,
+            "porcentaje": porcentaje,
         }) 
     print("Interconexión " + nuevo_id + " agregada con éxito.")
 
@@ -130,21 +143,25 @@ def menu_interconexion():
             accion = input(
                 "¿Deseas crear una nueva interconexión, editar o eliminar una existente? (Crear/Editar/Eliminar): "
             ).capitalize()
-        
-        
+
+
         if accion == "Crear":
             origen = seleccionar_recurso("Selecciona el recurso de origen", recursos)
             destino = seleccionar_recurso("Selecciona el recurso de destino", recursos_destino)
-            capacidad = int(
+            if any(interc['origen'] == origen and interc['destino'] == destino for interc in interconexiones_actuales):
+                print("Ya has introducido esto. Por favor, elige diferentes recursos o edita la interconexión existente.")
+                menu_interconexion()
+            
+            porcentaje = int(
                 input("Introduce el porcentaje de la interconexión (1-100): ")
             )
-            while capacidad <= 0 or capacidad > 100:
+            while porcentaje <= 0 or porcentaje > 100:
                 print("Porcentaje inválido. Introduce un valor entre 1 y 100.")
-                capacidad = int(
+                porcentaje = int(
                     input("Introduce el porcentaje de la interconexión (1-100): ")
                 )
             capacidad_validada = validar_capacidad_interconexion(
-                origen, destino, capacidad, interconexiones_actuales
+                origen, destino, porcentaje, interconexiones_actuales
             )
             agregar_interconexion(
                 origen, destino, capacidad_validada, interconexiones_actuales, tipo
