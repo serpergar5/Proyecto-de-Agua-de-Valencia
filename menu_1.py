@@ -59,7 +59,6 @@ def alta_fuente():
             "Id": que_identificador,
             "Calidad": calidad,
             "Litros": litros,
-            "Uso": variables.calidad_del_agua_indice[calidad],
         }
     )
     print("Fuente añadida correctamente.")

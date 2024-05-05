@@ -60,7 +60,6 @@ def alta_planta():
             "Id": que_identificador,
             "Eficiencia": eficiencia,
             "Litros": int(litros),
-            "Uso": eficiencia_valor,
         }
     )
     print("Planta añadida correctamente.")

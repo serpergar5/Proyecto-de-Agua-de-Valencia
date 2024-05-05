@@ -3,7 +3,8 @@ import menu_2
 import menu_3
 import menu_4
 import menu_5
-
+import menu_6
+import menu_7
 
 def mostrar_menu():
     print(
@@ -48,13 +49,11 @@ def procesar_opcion(seleccion):
         menu_4.menu_interconexion()
     elif seleccion == 5:
         menu_5.menu_dias()
-        pass
     elif seleccion == 6:
-        # Código para manejar 'Info sistema'
-        pass
+        menu_6.menu_info_sistema()
     elif seleccion == 7:
-        # Código para manejar 'Ficheros'
-        pass
+        menu_7.menu_ficheros
+
 
 
 def menu_principal():

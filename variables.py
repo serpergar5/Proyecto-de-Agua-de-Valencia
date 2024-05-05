@@ -13,5 +13,5 @@ calidad_del_agua_indice = {"Potable": 1, "Alta": 0.9, "Media":0.8, "Baja":0.7, "
 plantas_potabilizadoras = ["PB1", "PB2", "PB3", "PB4", "PB5", "PB6", "PB7", "PB8", "PB9"]
 eficiencia = ["Alta", "Media", "Baja"]
 eficiencia_de_la_planta_indice = {"Alta": 1,"Media": 0.8,"Baja": 0.7,}
-
 centros_distribucion = ["CD1", "CD2", "CD3", "CD4", "CD5", "CD6", "CD7", "CD8", "CD9"]
+ficheros = ["fh.csv", "pb.csv", "cd.csv", "fh-pb.csv","pb-cd"]
