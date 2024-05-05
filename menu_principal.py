@@ -52,7 +52,7 @@ def procesar_opcion(seleccion):
     elif seleccion == 6:
         menu_6.menu_info_sistema()
     elif seleccion == 7:
-        menu_7.menu_ficheros
+        menu_7.menu_ficheros()
 
 
 
