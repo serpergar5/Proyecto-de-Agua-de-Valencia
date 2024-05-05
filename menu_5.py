@@ -1,23 +1,17 @@
-# Simulación de días en el sistema de gestión de agua
+import variables
+import menu_principal
 
-import variables  # Asumimos que las variables contienen la estructura necesaria para la simulación
 
-
-def calcular_eficiencia(fuente_calidad, planta_eficiencia):
+def calcular_eficiencia(fuente_calidad):
     penalizacion = 0
     if fuente_calidad != "Potable" and fuente_calidad != "No Potabilizable":
-        if planta_eficiencia == "Alta":
-            penalizacion += variables.calidad_del_agua_indice[fuente_calidad]
-        elif planta_eficiencia == "Media":
-            penalizacion += 0.1  # Ejemplo de penalización
-        elif planta_eficiencia == "Baja":
-            penalizacion += 0.2
-    return max(0, 1 - penalizacion)  # Asegura que la eficiencia no sea negativa
+        penalizacion += variables.calidad_del_agua_indice[fuente_calidad]
+
+    return penalizacion
 
 
 def simular_dia():
     print("Fase 1: Fuentes a Plantas")
-    # 1) Fuentes entregan agua a las plantas potabilizadoras
     for interconexion in variables.interconexiones_fh:
         fuente = next(
             (f for f in variables.fuentes_hidricas_usuarios
@@ -29,19 +23,18 @@ def simular_dia():
             (
                 p
                 for p in variables.plantas_potabilizadoras_usuarios
-                if p["Id"] == interconexion["Porcentaje"]
+                if p["Id"] == interconexion["Destino"]
             ),
             None,
         )
         if fuente and planta:
-            eficiencia = calcular_eficiencia(fuente["Calidad"], planta["Eficiencia"])
-            agua_entregada = (
+            eficiencia = calcular_eficiencia(fuente["Calidad"])
+            agua_entregada_fhpb = (
                 fuente["Litros"] * interconexion["Porcentaje"] / 100 * eficiencia
             )
-            planta["Litros"] = planta.get("Litros", 0) + agua_entregada
+            planta["Litros"] = planta.get("Litros", 0) + agua_entregada_fhpb
 
-    print("Fase 2: Plantas potabilizan y entregan agua")
-    # 2 y 3) Plantas potabilizan agua y la entregan a centros
+    print("Fase 2 y 3: Plantas potabilizan y entregan agua")
     for interconexion in variables.interconexiones_pb:
         planta = next(
             (
@@ -61,18 +54,16 @@ def simular_dia():
         )
         if planta and centro:
             agua_potabilizada = planta.get("Litros", 0)
-            agua_entregada = agua_potabilizada * interconexion["Porcentaje"] / 100
+            agua_entregada_pbcd = agua_potabilizada * interconexion["Porcentaje"] / 100
             centro["Reserva temporal"] = (
-                centro.get("Reserva temporal", 0) + agua_entregada
+                centro.get("Reserva temporal", 0) + agua_entregada_pbcd
             )
 
     print("Fase 4: Consumo en centros")
-    # 4) Centros de distribución consumen agua
     for centro in variables.centros_distribucion_usuarios:
         centro["Reserva temporal"] -= centro["Consumo diario"]
 
     print("Fase 5: Corrección de desbordes")
-    # 5) Cierre día: Corrección de desbordes temporales
     for centro in variables.centros_distribucion_usuarios:
         if centro["Reserva temporal"] > centro["Capacidad máxima"]:
             centro["Reserva temporal"] = centro["Capacidad máxima"]
@@ -91,8 +82,7 @@ def menu_dias():
         print("Simulación completada para el día.")
 
     print("Simulación finalizada. Volviendo al menú principal.")
+    menu_principal.menu_principal
 
-
-# Incluimos esta sección para permitir ejecución directa
 if __name__ == "__main__":
     menu_dias()
