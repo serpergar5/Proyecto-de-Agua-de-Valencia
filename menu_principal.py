@@ -6,6 +6,7 @@ import menu_5
 import menu_6
 import menu_7
 
+# Muestra el siguiente menú de opciones al usuario.
 def mostrar_menu():
     print(
         """
@@ -22,7 +23,7 @@ Elige una opción:
 """
     )
 
-
+# Recoge la selección del usuario y la devuelve.
 def solicitar_seleccion():
     while True:
         try:
@@ -35,6 +36,7 @@ def solicitar_seleccion():
             print("Por favor, ingresa un número válido.")
 
 
+# Procesa la selección del usuario y llama a la función correspondiente.
 def procesar_opcion(seleccion):
     if seleccion == 0:
         print("Hasta luego.")
@@ -54,14 +56,13 @@ def procesar_opcion(seleccion):
     elif seleccion == 7:
         menu_7.menu_ficheros()
 
-
-
+# Muestra el menú principal y procesa la selección del usuario.
 def menu_principal():
     while True:
         mostrar_menu()
         seleccion = solicitar_seleccion()
         procesar_opcion(seleccion)
 
-
+# Si este script es el punto de entrada, ejecuta la función menu_principal (este archivo).
 if __name__ == "__main__":
     menu_principal()
