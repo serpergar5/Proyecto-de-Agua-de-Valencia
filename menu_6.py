@@ -14,7 +14,7 @@ def mostrar_info_plantas():
 def mostrar_info_centros():
     print("\nCentros de Distribución:")
     for centro in variables.centros_distribucion_usuarios:
-        print("ID: " + centro['Id'] + ", Capacidad máxima: " + str(centro['Capacidad máxima']) + ", Reserva actual: " + str(centro.get('Reserva actual', 'No disponible')))
+        print("ID: " + centro['Id'] + ", Capacidad máxima: " + str(centro['Capacidad máxima']) + ", Reserva actual: " + str(centro['Reserva actual']) + ", Consumo diario: " + str(centro['Consumo diario']))
 
 def mostrar_info_interconexiones():
     print("\nInterconexiones:")

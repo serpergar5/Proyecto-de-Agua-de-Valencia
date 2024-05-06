@@ -33,12 +33,10 @@ def solicitar_identificador(alta):
 
 
 def alta_planta():
-    if (
-        input(
-            "¿Quieres ver el listado de plantas potabilizadoras disponibles? (sí/no): "
-        ).lower()
-        == "sí"
-    ):
+    print("\n¿Quieres ver el listado de plantas potabilizadoras disponibles?")
+    print("1) Sí")
+    print("2) No")
+    if input("Elige una opción (1-2): ") == "1":
         mostrar_plantas()
     que_identificador = solicitar_identificador(alta=True)
 
@@ -48,7 +46,6 @@ def alta_planta():
     while eficiencia not in variables.eficiencia:
         print("Por favor, introduce una eficiencia valida.")
         eficiencia = input("Ingresa la eficiencia: ").title()
-    eficiencia_valor = variables.eficiencia_de_la_planta_indice[eficiencia]
 
     litros = int(input("Cantidad de litros que potabiliza la planta: "))
     while int(litros) <= 0:
@@ -68,17 +65,21 @@ def alta_planta():
 def modificar_planta():
     mostrar_plantas()
     que_identificador = solicitar_identificador(alta=False)
+    print("\n¿Quieres modificar la eficiencia, los litros o dar de baja?")
+    print("1) Eficiencia")
+    print("2) Litros")
+    print("3) Dar de baja")
+    que_modifica = input("Elige una opción (1-2-3): ")
 
-    que_modifica = input(
-        "¿Quieres modificar la eficiencia, los litros, o quieres dar de baja? "
-    ).lower()
-    while que_modifica not in ["eficiencia", "litros", "dar de baja"]:
+    while que_modifica not in ["1", "2", "3"]:
         print("Opción no válida. Elige una opción válida.")
-        que_modifica = input(
-            "¿Quieres modificar la eficiencia, los litros, o dar de baja? "
-        ).lower()
+        print("\n¿Quieres modificar la calidad, los litros o dar de baja?")
+        print("1) Calidad")
+        print("2) Litros")
+        print("3) Dar de baja")        
+        que_modifica = input("Elige una opción (1-2-3): ")
 
-    if que_modifica == "dar de baja":
+    if que_modifica == "3":
         variables.plantas_potabilizadoras_usuarios = [
             planta
             for planta in variables.plantas_potabilizadoras_usuarios
@@ -87,50 +88,55 @@ def modificar_planta():
         print("Planta eliminada correctamente.")
         return
 
-    actualizar_planta(que_identificador, que_modifica)
-
-
-def actualizar_planta(que_identificador, que_modifica):
-    nueva_info = input("Introduce el nuevo valor: ").strip()
-    if que_modifica == "eficiencia":
+    if que_modifica == "1":
+        nueva_info = input("Introduce la nueva eficiencia " + str(variables.eficiencia) + ": ").title()
         if nueva_info not in variables.eficiencia:
             print("Eficiencia no válida.")
             return
-        nueva_info = variables.eficiencia_de_la_planta_indice[nueva_info]
-    elif que_modifica == "litros":
-        if not nueva_info.isdigit() or int(nueva_info) <= 0:
-            print("Introduce un número válido mayor a 0.")
+        for planta in variables.plantas_potabilizadoras_usuarios:
+            if planta["Id"] == que_identificador:
+                planta["Eficiencia"] = nueva_info
+                print("Información actualizada correctamente.")
+            else:
+                continue
+        
+    if que_modifica == "2":
+        nueva_info = input("Introduce la nueva cantidad de litros: ")
+        if int(nueva_info) <= 0:
+            print("Introduce una cifra mayor a 0.")
             return
-        nueva_info = int(nueva_info)
-
-    for planta in variables.plantas_potabilizadoras_usuarios:
-        if planta["Id"] == que_identificador:
-            planta[que_modifica.capitalize()] = nueva_info
-            print("Información actualizada correctamente.")
-            break
-
+        for planta in variables.plantas_potabilizadoras_usuarios:
+            if planta["Id"] == que_identificador:
+                planta["Litros"] = nueva_info
+                print("Información actualizada correctamente.")
+            else:
+                continue
 
 def menu_planta_potabilizadora():
     while True:
         if variables.plantas_potabilizadoras_usuarios == []:
-            opcion = input(
-                "\n¿Quieres dar de alta una planta potabilizadora, o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú de Plantas Potabilizadoras")
+            print("1) Dar de alta una planta potabilizadora")
+            print("2) Salir al menú principal")
+            
+            opcion = input("Elige una opción (1-2): ")
+            if opcion == "1":
                 alta_planta()
-            elif opcion == "salir al menú principal":
+            elif opcion == "2":
                 return  # Regresa al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")
         else:
-            opcion = input(
-                "\n¿Quieres dar de alta una planta potabilizadora, modificar una existente, o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú de Plantas Potabilizadoras")
+            print("1) Dar de alta una planta potabilizadora")
+            print("2) Modificar una planta potabilizadora")
+            print("3) Salir al menú principal")
+            opcion = input("Elige una opción (1-2-3): ")
+            if opcion == "1":
                 alta_planta()
-            elif opcion == "modificar":
+            elif opcion == "2":
                 modificar_planta()
-            elif opcion == "salir al menú principal":
+            elif opcion == "3":
                 return  # Regresa al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")

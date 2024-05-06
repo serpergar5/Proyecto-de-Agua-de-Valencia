@@ -53,7 +53,7 @@ def menu_ficheros():
         print("\nMenú de Gestión de Ficheros")
         print("1) Cargar datos desde un fichero")
         print("2) Guardar datos en un fichero")
-        print("3) Salir")
+        print("3) Salir al menú principal")
 
         opcion = input("Elige una opción (1-2-3): ")
 

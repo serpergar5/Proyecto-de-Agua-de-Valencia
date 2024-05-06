@@ -31,8 +31,13 @@ def solicitar_identificador_centro(alta):
         elif existe_en_registros and not existe_en_usuario and not alta:
             print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
 
+
 def alta_centro():
-    mostrar_centros_distribucion()
+    print("\n¿Quieres ver el listado de centros de distribución disponibles?")
+    print("1) Sí")
+    print("2) No")
+    if(input("Elige una opción (1-2): ") == "1"):
+        mostrar_centros_distribucion()
     que_identificador = solicitar_identificador_centro(alta=True)
 
     reserva_max = int(input("Ingresa la capacidad máxima de reserva del centro (litros): "))
@@ -67,12 +72,13 @@ def alta_centro():
 
 def modificar():
     mostrar_centros_distribucion()
-    que_identificador = solicitar_identificador_centro()
+    que_identificador = solicitar_identificador_centro(alta=False)
+    print("\n¿Quieres modificar o dar de baja este centro?")
+    print("1) Modificar")
+    print("2) Dar de baja")
+    modifica_o_baja = input("Elige una opción (1-2): ")
 
-    modifica_o_baja = input(
-        "¿Quieres modificar o dar de baja este centro? (Modificar/Baja) "
-    ).lower()
-    if modifica_o_baja == "baja":
+    if modifica_o_baja == "2":
         variables.centros_distribucion_usuarios = [
             centro
             for centro in variables.centros_distribucion_usuarios
@@ -81,7 +87,7 @@ def modificar():
         print("Centro de distribución eliminado correctamente.")
         return
 
-    if modifica_o_baja == "modificar":
+    if modifica_o_baja == "1":
         actualizar_centro(que_identificador)
 
 
@@ -97,7 +103,7 @@ def actualizar_centro(que_identificador):
         reserva_actual = input("Nueva reserva actual (litros): ")
 
     consumo = input("Nueva cantidad de litros que consume diariamente el centro: ")
-    while int(consumo) <= 0 or int(consumo) > (reserva_max):
+    while int(consumo) <= 0 or int(consumo) > int((reserva_max)):
         print("Introduce un consumo válido y que no exceda la capacidad máxima del centro.")
         consumo = input("Nueva cantidad de litros que consume diariamente el centro: ")
 
@@ -113,24 +119,27 @@ def actualizar_centro(que_identificador):
 def menu_centro_distribucion():
     while True:
         if variables.centros_distribucion_usuarios == []:
-            opcion = input(
-                "\n¿Quieres dar de alta un centro de distribución o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú Centros de Distribución")
+            print("1) Dar de alta un centro de distribución")
+            print("2) Salir al menú principal")
+            opcion = input("Elige una opción (1-2): ")
+            if opcion == "1":
                 alta_centro()
-            elif opcion == "salir al menú principal":
+            elif opcion == "2":
                 return  # Regresa al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")
         else:
-            opcion = input(
-                "\n¿Quieres dar de alta un centro de distribución, modificar uno existente, o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú Centros de Distribución")
+            print("1) Dar de alta un centro de distribución")
+            print("2) Modificar un centro de distribución")
+            print("3) Salir al menú principal")
+            opcion = input("Elige una opción (1-2-3): ")
+            if opcion == "1":
                 alta_centro()
-            elif opcion == "modificar":
+            elif opcion == "2":
                 modificar()
-            elif opcion == "salir al menú principal":
+            elif opcion == "3":
                 return  # Regresa al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")

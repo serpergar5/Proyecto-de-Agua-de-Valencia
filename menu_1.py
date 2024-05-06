@@ -33,12 +33,10 @@ def solicitar_identificador(alta):
 
 
 def alta_fuente():
-    if (
-        input("¿Quieres ver el listado de fuentes hídricas disponibles? (sí/no): ")
-        .strip()
-        .lower()
-        == "sí"
-    ):
+    print("\n¿Quieres ver el listado de fuentes hídricas disponibles?")
+    print("1) Sí")
+    print("2) No")
+    if(input("Elige una opción (1-2): ") == "1"):
         mostrar_fuentes()
     que_identificador = solicitar_identificador(alta=True)
 
@@ -67,17 +65,21 @@ def alta_fuente():
 def modificar_fuente():
     mostrar_fuentes()
     que_identificador = solicitar_identificador(alta=False)
-
-    que_modifica = input(
-        "¿Quieres modificar la calidad, los litros, o dar de baja? "
-    ).lower()
-    while que_modifica not in ["calidad", "litros", "dar de baja"]:
+    print("\n¿Quieres modificar la calidad, los litros o dar de baja?")
+    print("1) Calidad")
+    print("2) Litros")
+    print("3) Dar de baja")
+    que_modifica = input("Elige una opción (1-2-3): ")
+    
+    while que_modifica not in ["1", "2", "3"]:
         print("Opción no válida. Elige una opción válida.")
-        que_modifica = input(
-            "¿Quieres modificar la calidad, los litros, o dar de baja? "
-        ).lower()
+        print("\n¿Quieres modificar la calidad, los litros o dar de baja?")
+        print("1) Calidad")
+        print("2) Litros")
+        print("3) Dar de baja")
+        que_modifica = input("Elige una opción (1-2-3): ")
 
-    if que_modifica == "dar de baja":
+    if que_modifica == "3":
         variables.fuentes_hidricas_usuarios = [
             fuente
             for fuente in variables.fuentes_hidricas_usuarios
@@ -86,41 +88,55 @@ def modificar_fuente():
         print("Fuente eliminada correctamente.")
         return
 
-    nueva_info = input(f"Introduce la nueva {que_modifica}: ")
-    if que_modifica == "calidad":
+    if que_modifica == "1":
+        nueva_info = input("Introduce la nueva calidad " + str(variables.calidad_del_agua) + ": ").title()
         if nueva_info not in variables.calidad_del_agua:
             print("Calidad no válida.")
             return
-        nueva_info = variables.calidad_del_agua_indice[nueva_info]
-
-    for fuente in variables.fuentes_hidricas_usuarios:
-        if fuente["Id"] == que_identificador:
-            fuente[que_modifica.capitalize()] = nueva_info
-            print("Información actualizada correctamente.")
-            break
-
-
+        for fuente in variables.fuentes_hidricas_usuarios:
+            if fuente["Id"] == que_identificador:
+                fuente["Calidad"] = nueva_info
+                print(que_identificador + " actualizada correctamente.")
+            else:
+                continue
+        
+    if que_modifica == "2":
+        nueva_info = input("Introduce la nueva cantidad de litros: ")
+        if int(nueva_info) <= 0:
+            print("Introduce una cifra mayor a 0.")
+            return
+        for fuente in variables.fuentes_hidricas_usuarios:
+            if fuente["Id"] == que_identificador:
+                fuente["Litros"] = nueva_info
+                print("Cantidad actualizada a " + str(nueva_info) + "L correctamente.")
+            else:
+                continue
+            
 def menu_fuente_hidrica():
     while True:
         if variables.fuentes_hidricas_usuarios == []:
-            opcion = input(
-                "\n¿Quieres dar de alta una fuente hídrica o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú Fuentes Hídricas")
+            print("1) Dar de alta una fuente hídrica")
+            print("2) Salir al menú principal")
+
+            opcion = input("Elige una opción (1-2): ")
+            if opcion == "1":
                 alta_fuente()
-            elif opcion == "salir al menú principal":
+            elif opcion == "2":
                 return  # Salir al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")
         else:
-            opcion = input(
-                "\n¿Quieres dar de alta una fuente hídrica, modificar una existente, o salir al menú principal? "
-            ).lower()
-            if opcion == "dar de alta":
+            print("\nMenú Fuentes Hídricas")
+            print("1) Dar de alta una fuente hídrica")
+            print("2) Modificar una fuente hídrica")
+            print("3) Salir al menú principal")
+            opcion = input("Elige una opción (1-2-3): ")
+            if opcion == "1":
                 alta_fuente()
-            elif opcion == "modificar":
+            elif opcion == "2":
                 modificar_fuente()
-            elif opcion == "salir al menú principal":
+            elif opcion == "3":
                 return  # Salir al menú principal
             else:
                 print("Por favor, selecciona una opción válida.")
