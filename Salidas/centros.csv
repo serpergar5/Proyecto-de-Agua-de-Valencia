@@ -1,4 +1,4 @@
 Id,Capacidad máxima,Reserva actual,Consumo diario
-CD1,900,80,90
-CD2,800,150,85
-CD3,1000,200,100
+CD1,900,900,1
+CD2,800,800,1
+CD3,1000,960.0,1

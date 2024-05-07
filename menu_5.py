@@ -2,11 +2,6 @@ import variables
 import menu_principal
 
 
-def calcular_eficiencia(fuente_calidad):
-    multiplicador = variables.calidad_del_agua_indice[fuente_calidad]
-    return multiplicador
-
-
 def simular_dia():
     print("Fase 1: Fuentes a Plantas")
     for interconexion in variables.interconexiones_fh:
@@ -25,11 +20,11 @@ def simular_dia():
             None,
         )
         if fuente and planta:
-            eficiencia = calcular_eficiencia(fuente["Calidad"])
+            calidad = variables.calidad_del_agua_indice[fuente["Calidad"]]
             agua_entregada_fhpb = (
-                float(fuente["Litros"]) * float(interconexion["Porcentaje"]) / 100 * eficiencia
+                float(fuente["Litros"]) * float(interconexion["Porcentaje"]) / 100 * calidad
             )
-            planta["Litros"] = float(planta.get("Litros", 0)) + agua_entregada_fhpb
+            planta["Litros"] = float(planta["Litros"]) + agua_entregada_fhpb
 
     print("Fase 2 y 3: Plantas potabilizan y entregan agua")
     for interconexion in variables.interconexiones_pb:
@@ -50,27 +45,29 @@ def simular_dia():
             None,
         )
         if planta and centro:
-            agua_potabilizada = float(planta.get("Litros", 0))
-            agua_entregada_pbcd = agua_potabilizada * float(interconexion["Porcentaje"]) / 100
-            centro["Reserva temporal"] = (
-                centro.get("Reserva temporal", 0) + agua_entregada_pbcd
-            )
-
+            agua_potabilizada = float(planta["Litros"])
+            eficiencia = variables.eficiencia_de_la_planta_indice[planta["Eficiencia"]]
+            agua_entregada_pbcd = agua_potabilizada * float(interconexion["Porcentaje"]) / 100 * eficiencia
+            centro["Reserva actual"] = float(centro["Reserva actual"]) + agua_entregada_pbcd
+            if centro["Reserva actual"] > float(centro["Capacidad máxima"]):
+                reserva_temporal = float(centro["Reserva actual"]) - float(centro["Capacidad máxima"])
+                centro["Reserva temporal"] = float(reserva_temporal)
+        
     print("Fase 4: Consumo en centros")
     for centro in variables.centros_distribucion_usuarios:
-        if "Reserva temporal" in centro:
-            centro["Reserva temporal"] -= float(centro["Consumo diario"])
+        if (float(centro["Reserva actual"]) - float(centro["Consumo diario"])) > 0:
+            centro["Reserva actual"] = float(centro["Reserva actual"]) - float(centro["Consumo diario"])
         else:
-            continue
-
+            centro["Reserva actual"] = 0
+            print(f"El centro {centro['Id']} se ha quedado sin agua.")
     print("Fase 5: Corrección de desbordes")
     for centro in variables.centros_distribucion_usuarios:
-        if "Reserva temporal" in centro:
-            if centro["Reserva temporal"] > float(centro["Capacidad máxima"]):
-                centro["Reserva temporal"] = float(centro["Capacidad máxima"])
-            centro["Reserva actual"] = centro["Reserva temporal"]
-        else:
-            continue
+        if "Reserva temporal" in centro and (centro["Reserva temporal"] + centro["Reserva actual"]) <= float(centro["Capacidad máxima"]):
+            centro["Reserva actual"] = centro["Reserva actual"] + centro["Reserva temporal"]
+            del centro["Reserva temporal"]
+        elif "Reserva temporal" in centro and (centro["Reserva temporal"] + centro["Reserva actual"]) > float(centro["Capacidad máxima"]):
+            centro["Reserva actual"] = centro["Capacidad máxima"]
+            del centro["Reserva temporal"]
 
 
 def menu_dias():
