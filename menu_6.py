@@ -1,6 +1,7 @@
 import menu_principal
 import variables
 
+# Muestra la información de las fuentes hídricas
 def mostrar_info_fuentes():
     try:
         print("\nFuentes Hídricas:")
@@ -9,7 +10,8 @@ def mostrar_info_fuentes():
     except:
         print("Error al mostrar la información de las fuentes hídricas.")
         menu_principal.menu_principal()
-    
+
+# Muestra la información de las plantas potabilizadoras
 def mostrar_info_plantas():
     try:
         print("\nPlantas Potabilizadoras:")
@@ -19,6 +21,7 @@ def mostrar_info_plantas():
         print("Error al mostrar la información de las plantas potabilizadoras.")
         menu_principal.menu_principal()
         
+# Muestra la información de los centros de distribución
 def mostrar_info_centros():
     try:
         print("\nCentros de Distribución:")
@@ -27,7 +30,8 @@ def mostrar_info_centros():
     except:
         print("Error al mostrar la información de los centros de distribución.")
         menu_principal.menu_principal()
-        
+
+# Muestra la información de las interconexiones
 def mostrar_info_interconexiones():
     try:
         print("\nInterconexiones:")
@@ -40,7 +44,8 @@ def mostrar_info_interconexiones():
     except:
         print("Error al mostrar la información de las interconexiones.")
         menu_principal.menu_principal()
-        
+
+# Menú de información del sistema (fuentes, plantas, centros e interconexiones)
 def menu_info_sistema():
     try:
         mostrar_info_fuentes()
