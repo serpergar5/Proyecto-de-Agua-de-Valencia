@@ -4,11 +4,9 @@ import menu_principal
 # Muestra los centros de distribución disponibles
 def mostrar_centros_distribucion():
     try:
-        print(
-            "\nListado de los centros de distribución disponibles: "
-            + ", ".join(variables.centros_distribucion)
-            + ": "
-        )
+        print("\nListado de centros de distribución ya introducidas: ")
+        for centro in variables.centros_distribucion_usuarios:
+            print(centro["Id"])
     except:
         print("Error al mostrar los centros de distribución.")
         menu_principal.menu_principal()
@@ -48,12 +46,13 @@ def solicitar_identificador_centro(alta):
 # Da de alta un centro de distribución
 def alta_centro():
     try:
-        # Muestra los centros de distribución disponibles y solicita el identificador del centro de distribución
-        print("\n¿Quieres ver el listado de centros de distribución disponibles?")
-        print("1) Sí")
-        print("2) No")
-        if(input("Elige una opción (1-2): ") == "1"):
-            mostrar_centros_distribucion()
+        if variables.centros_distribucion_usuarios != []:
+            # Muestra los centros de distribución disponibles y solicita el identificador del centro de distribución
+            print("\n¿Quieres ver el listado de centros de distribución disponibles?")
+            print("1) Sí")
+            print("2) No")
+            if(input("Elige una opción (1-2): ") == "1"):
+                mostrar_centros_distribucion()
         que_identificador = solicitar_identificador_centro(alta=True)
         # Solicita la capacidad máxima de reserva y comprueba que sea mayor a 0
         reserva_max = int(input("Ingresa la capacidad máxima de reserva del centro (litros): "))
@@ -64,9 +63,9 @@ def alta_centro():
             ))
         # Solicita la reserva actual y comprueba que no exceda la capacidad máxima del centro de distribución y que sea mayor a 0
         reserva_actual = int(input("Ingresa la reserva actual del centro (litros): "))
-        while (int(reserva_actual) > int(reserva_max)):
+        while (int(reserva_actual) > int(reserva_max)) or (int(reserva_actual) < 0):
             print(
-                "Por favor, introduce una reserva válida que no exceda la capacidad máxima."
+            "Por favor, introduce una reserva válida que no exceda la capacidad máxima y no sea menor a 0."
             )
             reserva_actual = int(input("Ingresa la reserva actual del centro (litros): "))
         # Solicita la cantidad de litros que consume diariamente el centro y comprueba que no exceda la capacidad máxima del centro y que sea mayor a 0

@@ -42,6 +42,7 @@ def seleccionar_interconexion(interconexiones):
         menu_principal.menu_principal()
 
 # Modifica una interconexión existente
+#TODO Verificar porcentaje
 def modificar_interconexion(interc):
     try:
         # Se solicita el nuevo porcentaje de la interconexión
@@ -135,8 +136,7 @@ def validar_capacidad_interconexion(id_origen, id_destino, porcentaje, intercone
 def agregar_interconexion(id_origen, id_destino, porcentaje, interconexiones, tipo):
     try:
         # Se genera un nuevo identificador para la interconexión y se añade a la lista de interconexiones
-        #TODO: Revisar el numero de ID
-        nuevo_id = id_origen + "-" + id_destino + "-" + str(len(interconexiones) + 1)
+        nuevo_id = id_origen + "-" + id_destino + "-" + str((len(interconexiones) + 1) % 100)
         if tipo == "FH":
             variables.interconexiones_fh.append({
                 "Id": nuevo_id,

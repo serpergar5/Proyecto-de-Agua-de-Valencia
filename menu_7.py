@@ -2,16 +2,22 @@ import csv
 import variables
 import menu_principal
 
+#TODO El usuario pasa el nombre y el directorio
 # Carga los datos de los ficheros en las listas de variables. Si no se encuentra un fichero, muestra un mensaje de error. Si el fichero no tiene las columnas esperadas, muestra un mensaje de error. Si hay un error al cargar los datos, muestra un mensaje de error. Si todo va bien, muestra un mensaje de éxito. 
 def cargar_datos():
     try:
+        rutafh = str(input("Introduce el nombre del fichero de fuentes hídricas: "))
+        rutapb = str(input("Introduce el nombre del fichero de plantas potabilizadoras: "))
+        rutacd = str(input("Introduce el nombre del fichero de centros de distribución: "))
+        rutafhpb = str(input("Introduce el nombre del fichero de interconexiones de fuentes hídricas a plantas potabilizadoras: "))
+        rutapbcd = str(input("Introduce el nombre del fichero de interconexiones de plantas potabilizadoras a centros de distribución: "))
         # Diccionario con los ficheros y las listas a las que se cargarán los datos de los ficheros y las columnas esperadas en los ficheros
         ficheros = {
-            "Entradas/fh.csv": (variables.fuentes_hidricas_usuarios, ['Id', 'Calidad', 'Litros']),
-            "Entradas/pb.csv": (variables.plantas_potabilizadoras_usuarios, ['Id', 'Eficiencia', 'Litros']),
-            "Entradas/cd.csv": (variables.centros_distribucion_usuarios, ['Id', 'Capacidad máxima', 'Reserva actual', 'Consumo diario']),
-            "Entradas/fh-pb.csv": (variables.interconexiones_fh, ['Id', 'Origen', 'Destino', 'Porcentaje']),
-            "Entradas/pb-cd.csv": (variables.interconexiones_pb, ['Id', 'Origen', 'Destino', 'Porcentaje'])
+            "Entradas/"+rutafh+".csv": (variables.fuentes_hidricas_usuarios, ['Id', 'Calidad', 'Litros']),
+            "Entradas/"+rutapb+".csv": (variables.plantas_potabilizadoras_usuarios, ['Id', 'Eficiencia', 'Litros']),
+            "Entradas/"+rutacd+".csv": (variables.centros_distribucion_usuarios, ['Id', 'Capacidad máxima', 'Reserva actual', 'Consumo diario']),
+            "Entradas/"+rutafhpb+".csv": (variables.interconexiones_fh, ['Id', 'Origen', 'Destino', 'Porcentaje']),
+            "Entradas/"+rutapbcd+".csv": (variables.interconexiones_pb, ['Id', 'Origen', 'Destino', 'Porcentaje'])
         }
         # Iteramos sobre los ficheros y las listas y columnas correspondientes en el diccionario 
         for fichero, (lista, campos) in ficheros.items():
@@ -39,13 +45,18 @@ def cargar_datos():
 # Guarda los datos de las listas en los ficheros. Si hay un error al guardar los datos, muestra un mensaje de error. Si todo va bien, muestra un mensaje de éxito.
 def guardar_datos():
     try:
+        rutafh = str(input("Introduce el nombre del fichero de fuentes hídricas: "))
+        rutapb = str(input("Introduce el nombre del fichero de plantas potabilizadoras: "))
+        rutacd = str(input("Introduce el nombre del fichero de centros de distribución: "))
+        rutafhpb = str(input("Introduce el nombre del fichero de interconexiones de fuentes hídricas a plantas potabilizadoras: "))
+        rutapbcd = str(input("Introduce el nombre del fichero de interconexiones de plantas potabilizadoras a centros de distribución: "))
         # Diccionario con los ficheros y las listas de las que se guardarán los datos en los ficheros
         archivos = {
-            'fuente': ('Salidas/fuentes.csv', variables.fuentes_hidricas_usuarios),
-            'planta': ('Salidas/plantas.csv', variables.plantas_potabilizadoras_usuarios),
-            'centro': ('Salidas/centros.csv', variables.centros_distribucion_usuarios),
-            'interconexion_fh': ('Salidas/interconexiones_fh.csv', variables.interconexiones_fh),
-            'interconexion_pb': ('Salidas/interconexiones_pb.csv', variables.interconexiones_pb)
+            'fuente': ('Salidas/'+rutafh+'.csv', variables.fuentes_hidricas_usuarios),
+            'planta': ('Salidas/'+rutapb+'.csv', variables.plantas_potabilizadoras_usuarios),
+            'centro': ('Salidas/'+rutacd+'.csv', variables.centros_distribucion_usuarios),
+            'interconexion_fh': ('Salidas/'+rutafhpb+'.csv', variables.interconexiones_fh),
+            'interconexion_pb': ('Salidas/'+rutapbcd+'.csv', variables.interconexiones_pb)
         }
         # Iteramos sobre los archivos y las listas correspondientes en el diccionario
         for tipo, (archivo, lista) in archivos.items():

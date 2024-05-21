@@ -8,21 +8,9 @@ def simular_dia():
         print("Fase 1: Fuentes a Plantas")
         # Iteramos sobre las interconexiones de fuentes a plantas
         for interconexion in variables.interconexiones_fh:
-            fuente = next(
-                (f for f in variables.fuentes_hidricas_usuarios
-                if f["Id"] == interconexion["Origen"]
-                ),
-                None,
-            )
+            fuente = next((f for f in variables.fuentes_hidricas_usuarios if f["Id"] == interconexion["Origen"]),None)
             # Buscamos la planta potabilizadora correspondiente a la interconexión actual en la lista de plantas potabilizadoras de los usuarios
-            planta = next(
-                (
-                    p
-                    for p in variables.plantas_potabilizadoras_usuarios
-                    if p["Id"] == interconexion["Destino"]
-                ),
-                None,
-            )
+            planta = next((p for p in variables.plantas_potabilizadoras_usuarios if p["Id"] == interconexion["Destino"]),None)
             # Si encontramos la fuente y la planta potabilizadora correspondientes, calculamos la cantidad de agua entregada
             if fuente and planta:
                 # Calculamos la calidad del agua de la fuente actual
@@ -107,7 +95,7 @@ def menu_dias():
         for dia in range(dias):
             print(f"Simulando día {dia + 1}...")
             simular_dia()
-            print("Simulación completada para el día.")
+            print("Simulación completada para el día " + str(dia +1))
         print("Simulación finalizada. Volviendo al menú principal.")
         menu_principal.menu_principal
         

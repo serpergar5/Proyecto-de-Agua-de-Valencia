@@ -4,44 +4,40 @@ import menu_principal
 # Muestra las plantas potabilizadoras disponibles
 def mostrar_plantas():
     try:
-        print(
-            "\nListado de plantas potabilizadoras disponibles: "
-            + ", ".join(variables.plantas_potabilizadoras)
-            + ": "
-        )
+        print("\nListado de plantas potabilizadoras ya introducidas: ")
+        for planta in variables.plantas_potabilizadoras_usuarios:
+            print(planta["Id"])
     except:
         print("Error al mostrar las plantas potabilizadoras.")
         menu_principal.menu_principal()
 
-# Solicita el identificador de la planta potabilizadora  
+# Solicita el identificador de la planta potabilizadora
 def solicitar_identificador(alta):
     try:
         while True:
             # Solicita el identificador
             que_identificador = input("Introduce el identificador de la planta potabilizadora: ").upper()
             #Comprueba si el identificador existe en la lista de plantas potabilizadoras
-            existe_en_registros = any(
-                planta == que_identificador for planta in variables.plantas_potabilizadoras
-            )
+            while len(que_identificador) < 3:
+                print("El identificador debe tener al menos 3 caracteres.")
+                que_identificador = input("Introduce el identificador de la planta potabilizadora: ").upper()
             #Comprueba si el identificador existe en la lista de plantas potabilizadoras de los usuarios
             existe_en_usuario = any(
                 planta_usuarios["Id"] == que_identificador
                 for planta_usuarios in variables.plantas_potabilizadoras_usuarios
             )
-            #Si el identificador no existe en la lista de plantas potabilizadoras
-            if not existe_en_registros:
-                print("Identificador no encontrado. Intente de nuevo con un identificador de la lista de plantas potabilizadoras disponibles.")
+
             #Si el identificador existe en la lista de plantas potabilizadoras y no en la lista de plantas potabilizadoras de los usuarios y se quiere dar de alta
-            elif existe_en_registros and not existe_en_usuario and alta:
+            if not existe_en_usuario and alta:
                 return que_identificador
             #Si el identificador existe en la lista de plantas potabilizadoras y en la lista de plantas potabilizadoras de los usuarios y se quiere modificar
-            elif existe_en_registros and existe_en_usuario and not alta:
+            elif existe_en_usuario and not alta:
                 return que_identificador
             #Si el identificador existe en la lista de plantas potabilizadoras y en la lista de plantas potabilizadoras de los usuarios y se quiere dar de alta indicando que ya está en uso
-            elif existe_en_registros and existe_en_usuario and alta:
+            elif existe_en_usuario and alta:
                 print("Este identificador ya está en uso para una planta potabilizadora. Introduce un identificador nuevo.")
             #Si el identificador existe en la lista de plantas potabilizadoras y no en la lista de plantas potabilizadoras de los usuarios y se quiere modificar indicando que no hay registros para esa planta
-            elif existe_en_registros and not existe_en_usuario and not alta:
+            elif not existe_en_usuario and not alta:
                 print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
     except:
         print("Error al solicitar el identificador.")
@@ -50,11 +46,12 @@ def solicitar_identificador(alta):
 # Da de alta una planta potabilizadora
 def alta_planta():
     try:
-        print("\n¿Quieres ver el listado de plantas potabilizadoras disponibles?")
-        print("1) Sí")
-        print("2) No")
-        if input("Elige una opción (1-2): ") == "1":
-            mostrar_plantas()
+        if variables.plantas_potabilizadoras_usuarios != []:
+            print("\n¿Quieres ver el listado de plantas potabilizadoras disponibles?")
+            print("1) Sí")
+            print("2) No")
+            if input("Elige una opción (1-2): ") == "1":
+                mostrar_plantas()
         que_identificador = solicitar_identificador(alta=True)
         # Solicita la eficiencia de la planta potabilizadora
         eficiencia = input(
@@ -114,7 +111,9 @@ def modificar_planta():
             nueva_info = input("Introduce la nueva eficiencia " + str(variables.eficiencia) + ": ").title()
             if nueva_info not in variables.eficiencia:
                 print("Eficiencia no válida.")
-                return
+                while nueva_info not in variables.eficiencia:
+                    print("Eficiencia no válida. Introduce una eficiencia válida.")
+                    nueva_info = input("Introduce la nueva eficiencia " + str(variables.eficiencia) + ": ").title()
             for planta in variables.plantas_potabilizadoras_usuarios:
                 if planta["Id"] == que_identificador:
                     planta["Eficiencia"] = nueva_info
@@ -126,7 +125,9 @@ def modificar_planta():
             nueva_info = input("Introduce la nueva cantidad de litros: ")
             if int(nueva_info) <= 0:
                 print("Introduce una cifra mayor a 0.")
-                return
+                while int(nueva_info) <= 0:
+                    print("Introduce una cifra mayor a 0.")
+                    nueva_info = input("Introduce la nueva cantidad de litros: ")
             for planta in variables.plantas_potabilizadoras_usuarios:
                 if planta["Id"] == que_identificador:
                     planta["Litros"] = nueva_info
