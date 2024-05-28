@@ -2,7 +2,6 @@ import csv
 import variables
 import menu_principal
 
-#TODO El usuario pasa el nombre y el directorio
 # Carga los datos de los ficheros en las listas de variables. Si no se encuentra un fichero, muestra un mensaje de error. Si el fichero no tiene las columnas esperadas, muestra un mensaje de error. Si hay un error al cargar los datos, muestra un mensaje de error. Si todo va bien, muestra un mensaje de éxito. 
 def cargar_datos():
     try:

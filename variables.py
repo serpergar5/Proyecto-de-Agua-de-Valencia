@@ -1,9 +1,6 @@
 fuentes_hidricas_usuarios = []
 plantas_potabilizadoras_usuarios = []
 centros_distribucion_usuarios = []
-centros_interconectados = []
-fuentes_hidricas_intercontectables = []
-fuentes_hidricas_planta_potabilizadora = []
 interconexiones_fh = []
 interconexiones_pb = []
 
