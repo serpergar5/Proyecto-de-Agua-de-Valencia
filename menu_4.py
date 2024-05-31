@@ -31,7 +31,7 @@ def seleccionar_interconexion(interconexiones):
         if mostrar_interconexiones(interconexiones):
             id_interconexion = input(
                 "Introduce el identificador de la interconexión a modificar o eliminar: "
-            ).upper()
+            )
             return next(
                 (interc for interc in interconexiones if interc["id"] == id_interconexion),
                 None,
@@ -42,7 +42,6 @@ def seleccionar_interconexion(interconexiones):
         menu_principal.menu_principal()
 
 # Modifica una interconexión existente
-#TODO Verificar porcentaje
 def modificar_interconexion(interc):
     try:
         # Se solicita el nuevo porcentaje de la interconexión
@@ -70,33 +69,26 @@ def eliminar_interconexion(interconexiones, interc):
         print("Error al eliminar la interconexión.")
         menu_principal.menu_principal()
 
-# Muestra los recursos disponibles para interconectar (fuentes hídricas o plantas potabilizadoras)
+# Si no hay recursos, se muestra un mensaje de error
 def mostrar_recursos_disponibles(recursos):
     try:
-        # Si hay recursos, se muestran y se solicita el identificador del recurso de origen y destino
-        if recursos:
-            print("\nListado de recursos disponibles para interconexión:")
-            for i, recurso in enumerate(recursos):
-                if i < len(recursos) - 1:
-                    print(recurso['Id'], end=', ')
-                else:
-                    print(recurso['Id'])
         # Si no hay recursos, se muestra un mensaje de error
-        else:
+        if not recursos:
             print("No hay recursos disponibles para interconexión. Asegúrate de haber añadido recursos antes de intentar interconectarlos.")
             return False
-        return True
+        else:
+            return True
     except:
         print("Error al mostrar los recursos disponibles.")
         menu_principal.menu_principal()
 
 # Solicita al usuario que seleccione un recurso de origen o destino para la interconexión
-def seleccionar_recurso(mensaje, recursos):
+def seleccionar_recurso(mensaje, recursos_usuario):
     try:
-        # Se muestra el mensaje de selección y se solicita el identificador del recurso de origen o destino para la interconexión 
+        # Se muestra el mensaje de selección y se solicita el identificador del recurso de origen o destino para la interconexión
         print(mensaje)
-        if recursos:
-            ids_disponibles = ", ".join(recurso["Id"] for recurso in recursos)
+        if recursos_usuario:
+            ids_disponibles = ", ".join(recurso["Id"] for recurso in recursos_usuario)
             print("Recursos disponibles: " + ids_disponibles)
         # Si no hay recursos disponibles, se muestra un mensaje de error
         else:
@@ -104,8 +96,8 @@ def seleccionar_recurso(mensaje, recursos):
             return None
         # Se valida que el identificador introducido sea válido y se devuelve el identificador del recurso seleccionado
         while True:
-            id_recurso = input("Introduce el identificador del recurso: ").upper()
-            if any(recurso["Id"] == id_recurso for recurso in recursos):
+            id_recurso = input("Introduce el identificador del recurso: ")
+            if any(recurso["Id"] == id_recurso for recurso in recursos_usuario):
                 return id_recurso
             # Si el identificador no es válido, se muestra un mensaje de error
             print("Identificador no válido. Intente de nuevo.")
@@ -196,8 +188,8 @@ def menu_interconexion():
 
             # Se ejecuta la acción seleccionada por el usuario
             if accion == "Crear":
-                origen = seleccionar_recurso("Selecciona el recurso de origen", recursos)
-                destino = seleccionar_recurso("Selecciona el recurso de destino", recursos_destino)
+                origen = seleccionar_recurso("Selecciona el recurso de origen", recursos_usuario=recursos)
+                destino = seleccionar_recurso("Selecciona el recurso de destino", recursos_usuario=recursos_destino)
                 if any(interc['origen'] == origen and interc['destino'] == destino for interc in interconexiones_actuales):
                     print("Ya has introducido esto. Por favor, elige diferentes recursos o edita la interconexión existente.")
                     menu_interconexion()

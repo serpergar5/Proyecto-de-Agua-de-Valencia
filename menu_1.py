@@ -16,10 +16,10 @@ def solicitar_identificador(alta):
     try:
         while True:
             #solicita el identificador
-            que_identificador = input("Introduce el identificador: ").upper()
+            que_identificador = input("Introduce el identificador: ")
             while len(que_identificador) < 3:
                 print("El identificador debe tener al menos 3 caracteres.")
-                que_identificador = input("Introduce el identificador: ").upper()
+                que_identificador = input("Introduce el identificador: ")
             #compueba si el identificador existe en la lista de fuentes hídricas de los usuarios
             existe_en_usuario = any(
                 fuente_usuarios["Id"] == que_identificador

@@ -16,28 +16,25 @@ def solicitar_identificador_centro(alta):
     try:
         # Solicita el identificador del centro de distribución y comprueba si existe en los registros y en los usuarios del sistema
         while True:
-            que_identificador = input("Introduce el identificador del centro de distribución: ").upper()
-            existe_en_registros = any(
-                centro == que_identificador for centro in variables.centros_distribucion
-            )
+            que_identificador = input("Introduce el identificador del centro de distribución: ")
+            while len(que_identificador) < 3:
+                print("El identificador debe tener al menos 3 caracteres.")
+                que_identificador = input("Introduce el identificador del centro de distribución: ")
             existe_en_usuario = any(
                 centro_usuarios["Id"] == que_identificador
                 for centro_usuarios in variables.centros_distribucion_usuarios
             )
-            # Si el identificador no existe en los registros de centros de distribución disponibles muestra un mensaje de error
-            if not existe_en_registros:
-                print("Identificador no encontrado. Intente de nuevo con un identificador de la lista de centros de distribución disponibles.")
             # Si el identificador existe en los registros y no en los usuarios y se quiere dar de alta devuelve el identificador
-            elif existe_en_registros and not existe_en_usuario and alta:
+            if not existe_en_usuario and alta:
                 return que_identificador
             # Si el identificador existe en los registros y en los usuarios y se quiere modificar devuelve el identificador
-            elif existe_en_registros and existe_en_usuario and not alta:
+            elif existe_en_usuario and not alta:
                 return que_identificador
             # Si el identificador existe en los registros y en los usuarios y se quiere dar de alta muestra un mensaje de error
-            elif existe_en_registros and existe_en_usuario and alta:
+            elif existe_en_usuario and alta:
                 print("Este identificador ya está en uso para un centro de distribución. Introduce un identificador nuevo.")
             # Si el identificador existe en los registros y no en los usuarios y se quiere modificar muestra un mensaje de error
-            elif existe_en_registros and not existe_en_usuario and not alta:
+            elif not existe_en_usuario and not alta:
                 print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
     except:
         print("Error al solicitar el identificador.")
@@ -47,8 +44,8 @@ def solicitar_identificador_centro(alta):
 def alta_centro():
     try:
         if variables.centros_distribucion_usuarios != []:
-            # Muestra los centros de distribución disponibles y solicita el identificador del centro de distribución
-            print("\n¿Quieres ver el listado de centros de distribución disponibles?")
+            # Muestra los centros de distribución introducidas y solicita el identificador del centro de distribución
+            print("\n¿Quieres ver el listado de centros de distribución ya introducidas?")
             print("1) Sí")
             print("2) No")
             if(input("Elige una opción (1-2): ") == "1"):

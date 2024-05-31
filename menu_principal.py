@@ -1,12 +1,4 @@
-import menu_1
-import menu_2
-import menu_3
-import menu_4
-import menu_5
-import menu_6
-import menu_7
-import menu_principal
-
+import menu_principal ,menu_1, menu_2, menu_3, menu_4 ,menu_5 ,menu_6, menu_7
 
 # Muestra el siguiente menú de opciones al usuario.
 def mostrar_menu():
@@ -44,37 +36,31 @@ def solicitar_seleccion():
 
 # Procesa la selección del usuario y llama a la función correspondiente.
 def procesar_opcion(seleccion):
-    try:
-        if seleccion == 0:
-            print("Hasta luego.")
-            exit()
-        elif seleccion == 1:
-            menu_1.menu_fuente_hidrica()
-        elif seleccion == 2:
-            menu_2.menu_planta_potabilizadora()
-        elif seleccion == 3:
-            menu_3.menu_centro_distribucion()
-        elif seleccion == 4:
-            menu_4.menu_interconexion()
-        elif seleccion == 5:
-            menu_5.menu_dias()
-        elif seleccion == 6:
-            menu_6.menu_info_sistema()
-        elif seleccion == 7:
-            menu_7.menu_ficheros()
-    except:
-        print("Error al procesar la opción.")
+    if seleccion == 0:
+        print("Hasta luego.")
+        exit(0)
+    elif seleccion == 1:
+        menu_1.menu_fuente_hidrica()
+    elif seleccion == 2:
+        menu_2.menu_planta_potabilizadora()
+    elif seleccion == 3:
+        menu_3.menu_centro_distribucion()
+    elif seleccion == 4:
+        menu_4.menu_interconexion()
+    elif seleccion == 5:
+        menu_5.menu_dias()
+    elif seleccion == 6:
+        menu_6.menu_info_sistema()
+    elif seleccion == 7:
+        menu_7.menu_ficheros()
 
 
 # Muestra el menú principal y procesa la selección del usuario.
 def menu_principal():
-    try:
-        while True:
-            mostrar_menu()
-            seleccion = solicitar_seleccion()
-            procesar_opcion(seleccion)
-    except:
-        print("Error al mostrar el menú principal.")
+    while True:
+        mostrar_menu()
+        seleccion = solicitar_seleccion()
+        procesar_opcion(seleccion)
 
 
 # Si este script es el punto de entrada, ejecuta la función menu_principal (este archivo).

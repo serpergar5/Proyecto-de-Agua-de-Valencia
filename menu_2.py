@@ -16,11 +16,11 @@ def solicitar_identificador(alta):
     try:
         while True:
             # Solicita el identificador
-            que_identificador = input("Introduce el identificador de la planta potabilizadora: ").upper()
+            que_identificador = input("Introduce el identificador de la planta potabilizadora: ")
             #Comprueba si el identificador existe en la lista de plantas potabilizadoras
             while len(que_identificador) < 3:
                 print("El identificador debe tener al menos 3 caracteres.")
-                que_identificador = input("Introduce el identificador de la planta potabilizadora: ").upper()
+                que_identificador = input("Introduce el identificador de la planta potabilizadora: ")
             #Comprueba si el identificador existe en la lista de plantas potabilizadoras de los usuarios
             existe_en_usuario = any(
                 planta_usuarios["Id"] == que_identificador
@@ -47,7 +47,7 @@ def solicitar_identificador(alta):
 def alta_planta():
     try:
         if variables.plantas_potabilizadoras_usuarios != []:
-            print("\n¿Quieres ver el listado de plantas potabilizadoras disponibles?")
+            print("\n¿Quieres ver el listado de plantas potabilizadoras ya introducidas?")
             print("1) Sí")
             print("2) No")
             if input("Elige una opción (1-2): ") == "1":
