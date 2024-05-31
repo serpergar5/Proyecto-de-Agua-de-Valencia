@@ -9,7 +9,7 @@ def mostrar_fuentes():
             print(fuente["Id"])
     except:
         print("Error al mostrar las fuentes hídricas.")
-        menu_principal.menu_principal()
+        return
 
 # Se encarga de solicitar el identificador de la fuente hídrica
 def solicitar_identificador(alta):
@@ -40,7 +40,7 @@ def solicitar_identificador(alta):
                 print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
     except:
         print("Error al solicitar el identificador.")
-        menu_principal.menu_principal()
+        return
 
 # Da de alta una fuente hídrica
 def alta_fuente():
@@ -76,7 +76,7 @@ def alta_fuente():
         print("Fuente añadida correctamente.")
     except:
         print("Error al dar de alta una fuente hídrica.")
-        menu_principal.menu_principal()
+        return
 
 # Modifica una fuente hídrica
 def modificar_fuente():
@@ -136,7 +136,7 @@ def modificar_fuente():
                     continue
     except:
         print("Error al modificar la fuente hídrica.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de fuentes hídricas
 def menu_fuente_hidrica():
@@ -172,10 +172,9 @@ def menu_fuente_hidrica():
                     print("Por favor, selecciona una opción válida.")
     except:
         print("Error al mostrar el menú de fuentes hídricas.")
-        menu_principal.menu_principal()
+        return
 
 
 # Si es llamado directamente, vuelve al menú principal al finalizar
 if __name__ == "__main__":
-    menu_fuente_hidrica()
-    menu_principal.menu_principal()
+    menu_principal.menu()

@@ -9,7 +9,7 @@ def mostrar_plantas():
             print(planta["Id"])
     except:
         print("Error al mostrar las plantas potabilizadoras.")
-        menu_principal.menu_principal()
+        return
 
 # Solicita el identificador de la planta potabilizadora
 def solicitar_identificador(alta):
@@ -41,7 +41,7 @@ def solicitar_identificador(alta):
                 print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
     except:
         print("Error al solicitar el identificador.")
-        menu_principal.menu_principal()
+        return
 
 # Da de alta una planta potabilizadora
 def alta_planta():
@@ -77,7 +77,7 @@ def alta_planta():
         print("Planta añadida correctamente.")
     except:
         print("Error al añadir la planta.")
-        menu_principal.menu_principal()
+        return
 # Modifica una planta potabilizadora
 def modificar_planta():
     try:
@@ -136,7 +136,7 @@ def modificar_planta():
                     continue
     except:
         print("Error al modificar la planta.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de plantas potabilizadoras
 def menu_planta_potabilizadora():
@@ -172,10 +172,9 @@ def menu_planta_potabilizadora():
                     print("Por favor, selecciona una opción válida.")
     except:
         print("Error al mostrar el menú de plantas potabilizadoras.")
-        menu_principal.menu_principal()
+        return
 
 
 # Integración con el menú principal si es llamado directamente
 if __name__ == "__main__":
-    menu_planta_potabilizadora()
-    menu_principal.menu_principal()
+    menu_principal.menu()

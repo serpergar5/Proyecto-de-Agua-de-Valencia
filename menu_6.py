@@ -9,7 +9,7 @@ def mostrar_info_fuentes():
             print("ID: " + fuente['Id'] + ", Calidad del agua: " + fuente['Calidad'] + ", Litros: " + str(fuente['Litros']))
     except:
         print("Error al mostrar la información de las fuentes hídricas.")
-        menu_principal.menu_principal()
+        return
 
 # Muestra la información de las plantas potabilizadoras
 def mostrar_info_plantas():
@@ -19,7 +19,7 @@ def mostrar_info_plantas():
             print("ID: " + planta['Id'] + ", Eficiencia: " + planta['Eficiencia'] + ", Litros: " + str(planta.get('Litros', 'No disponible')))
     except:
         print("Error al mostrar la información de las plantas potabilizadoras.")
-        menu_principal.menu_principal()
+        return
         
 # Muestra la información de los centros de distribución
 def mostrar_info_centros():
@@ -29,7 +29,7 @@ def mostrar_info_centros():
             print("ID: " + centro['Id'] + ", Capacidad máxima: " + str(centro['Capacidad máxima']) + ", Reserva actual: " + str(centro['Reserva actual']) + ", Consumo diario: " + str(centro['Consumo diario']))
     except:
         print("Error al mostrar la información de los centros de distribución.")
-        menu_principal.menu_principal()
+        return
 
 # Muestra la información de las interconexiones
 def mostrar_info_interconexiones():
@@ -43,7 +43,7 @@ def mostrar_info_interconexiones():
             print("Origen: " + inter['Origen'] + " -> Destino: " + inter['Destino'] + ", Porcentaje: " + str(inter['Porcentaje']) + "%")
     except:
         print("Error al mostrar la información de las interconexiones.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de información del sistema (fuentes, plantas, centros e interconexiones)
 def menu_info_sistema():
@@ -56,9 +56,8 @@ def menu_info_sistema():
         print("\nInformación completa del sistema mostrada. Volviendo al menú principal.")
     except:
         print("Error al mostrar la información del sistema.")
-        menu_principal.menu_principal()
+        return
 
 # Incluimos esta sección para permitir ejecución directa
 if __name__ == "__main__":
-    menu_info_sistema()
-    menu_principal.menu_principal()
+    menu_principal.menu()

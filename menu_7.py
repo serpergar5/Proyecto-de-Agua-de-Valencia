@@ -39,7 +39,7 @@ def cargar_datos():
                 print("Error al cargar los datos de " + fichero + ":" + str(e))
     except:
         print("Error al cargar los datos.")
-        menu_principal.menu_principal()
+        return
 
 # Guarda los datos de las listas en los ficheros. Si hay un error al guardar los datos, muestra un mensaje de error. Si todo va bien, muestra un mensaje de éxito.
 def guardar_datos():
@@ -67,7 +67,7 @@ def guardar_datos():
             print("Datos de " + tipo + " guardados correctamente en " + archivo + ".")
     except Exception as e:
         print("Error al guardar los datos de " + tipo + " en "+ archivo + ":" + str(e))
-        menu_principal.menu_principal()
+        return
 
 # Menú de gestión de ficheros que permite cargar y guardar los datos de los ficheros 
 def menu_ficheros():
@@ -92,8 +92,7 @@ def menu_ficheros():
                 print("Opción no válida. Por favor, intenta de nuevo.")
     except:
         print("Error en el menú de ficheros.")
-        menu_principal.menu_principal()
+        return
 
 if __name__ == "__main__":
-    menu_ficheros()
-    menu_principal.menu_principal()
+    menu_principal.menu()

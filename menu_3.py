@@ -9,7 +9,7 @@ def mostrar_centros_distribucion():
             print(centro["Id"])
     except:
         print("Error al mostrar los centros de distribución.")
-        menu_principal.menu_principal()
+        return
 
 # Solicita el identificador del centro de distribución
 def solicitar_identificador_centro(alta):
@@ -38,7 +38,7 @@ def solicitar_identificador_centro(alta):
                 print("No hay registros de uso para este identificador. Introduce un identificador que ya esté en uso.")
     except:
         print("Error al solicitar el identificador.")
-        menu_principal.menu_principal()
+        return
 
 # Da de alta un centro de distribución
 def alta_centro():
@@ -82,7 +82,7 @@ def alta_centro():
         print("Centro de distribución añadido correctamente.")
     except:
         print("Error al dar de alta el centro de distribución.")
-        menu_principal.menu_principal()
+        return
 
 # Modifica o da de baja un centro de distribución
 def modificar():
@@ -109,7 +109,7 @@ def modificar():
             actualizar_centro(que_identificador)
     except:
         print("Error al modificar el centro de distribución.")
-        menu_principal.menu_principal()
+        return
 
 # Actualiza la información de un centro de distribución
 def actualizar_centro(que_identificador):
@@ -139,7 +139,7 @@ def actualizar_centro(que_identificador):
                 break
     except:
         print("Error al actualizar la información del centro de distribución.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de centros de distribución
 def menu_centro_distribucion():
@@ -174,8 +174,7 @@ def menu_centro_distribucion():
                     print("Por favor, selecciona una opción válida.")
     except:
         print("Error al mostrar el menú de centros de distribución.")
-        menu_principal.menu_principal()
+        return
 
 if __name__ == "__main__":
-    menu_centro_distribucion()
-    menu_principal.menu_principal()
+    menu_principal.menu()

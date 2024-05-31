@@ -22,7 +22,7 @@ def mostrar_interconexiones(interconexiones):
         return True
     except:
         print("Error al mostrar las interconexiones.")
-        menu_principal.menu_principal()
+        return
 
 # Selecciona una interconexión existente
 def seleccionar_interconexion(interconexiones):
@@ -39,7 +39,7 @@ def seleccionar_interconexion(interconexiones):
         return None
     except:
         print("Error al seleccionar la interconexión.")
-        menu_principal.menu_principal()
+        return
 
 # Modifica una interconexión existente
 def modificar_interconexion(interc):
@@ -58,7 +58,7 @@ def modificar_interconexion(interc):
         print("Interconexión actualizada con éxito.")
     except:
         print("Error al modificar la interconexión.")
-        menu_principal.menu_principal()
+        return
 
 # Elimina una interconexión existente de la lista de interconexiones
 def eliminar_interconexion(interconexiones, interc):
@@ -67,7 +67,7 @@ def eliminar_interconexion(interconexiones, interc):
         print("Interconexión eliminada con éxito.")
     except:
         print("Error al eliminar la interconexión.")
-        menu_principal.menu_principal()
+        return
 
 # Si no hay recursos, se muestra un mensaje de error
 def mostrar_recursos_disponibles(recursos):
@@ -80,7 +80,7 @@ def mostrar_recursos_disponibles(recursos):
             return True
     except:
         print("Error al mostrar los recursos disponibles.")
-        menu_principal.menu_principal()
+        return
 
 # Solicita al usuario que seleccione un recurso de origen o destino para la interconexión
 def seleccionar_recurso(mensaje, recursos_usuario):
@@ -103,7 +103,7 @@ def seleccionar_recurso(mensaje, recursos_usuario):
             print("Identificador no válido. Intente de nuevo.")
     except:
         print("Error al seleccionar el recurso.")
-        menu_principal.menu_principal()
+        return
 
 # Valida que el porcentaje de interconexión no exceda el 100% y solicita un nuevo porcentaje si es necesario
 def validar_capacidad_interconexion(id_origen, id_destino, porcentaje, interconexiones):
@@ -122,7 +122,7 @@ def validar_capacidad_interconexion(id_origen, id_destino, porcentaje, intercone
         return porcentaje
     except:
         print("Error al validar la capacidad de la interconexión.")
-        menu_principal.menu_principal()
+        return
 
 # Agrega una nueva interconexión a la lista de interconexiones
 def agregar_interconexion(id_origen, id_destino, porcentaje, interconexiones, tipo):
@@ -146,7 +146,7 @@ def agregar_interconexion(id_origen, id_destino, porcentaje, interconexiones, ti
         print("Interconexión " + nuevo_id + " agregada con éxito.")
     except:
         print("Error al agregar la interconexión.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de gestión de interconexiones (crear, editar o eliminar)
 def menu_interconexion():
@@ -154,12 +154,12 @@ def menu_interconexion():
         while True:
             # Se solicita al usuario que seleccione el tipo de recurso a interconectar (fuentes hídricas o plantas potabilizadoras)
             tipo = input(
-                "¿Deseas interconectar una Fuente Hídrica (FH) o una Planta Potabilizadora (PB)? "
+                "¿Deseas interconectar una Fuente Hídrica (FH), una Planta Potabilizadora (PB) o salir al menú principal (MP)? "
             ).upper()
             # Se valida que el tipo introducido sea válido
-            while tipo not in ["FH", "PB"]:
+            while tipo not in ["FH", "PB", "MP"]:
                 print(
-                    "Opción inválida. Introduce 'FH' para Fuente Hídrica o 'PB' para Planta Potabilizadora."
+                    "Opción inválida. Introduce 'FH' para Fuente Hídrica, 'PB' para Planta Potabilizadora o 'MP'."
                 )
                 tipo = input().upper()
             # Se seleccionan los recursos de origen y destino para la interconexión y se añaden a la lista de interconexiones correspondiente (fuentes hídricas)
@@ -172,6 +172,8 @@ def menu_interconexion():
                 recursos = variables.plantas_potabilizadoras_usuarios
                 recursos_destino = variables.centros_distribucion_usuarios
                 interconexiones_actuales = variables.interconexiones_pb
+            elif tipo == "MP":
+                return
             # Se muestran los recursos disponibles para interconectar y se solicita al usuario que seleccione un recurso de origen y destino
             if not mostrar_recursos_disponibles(recursos):
                 print("Primero tienes que añadir datos antes de interconectarlos.")
@@ -231,8 +233,7 @@ def menu_interconexion():
                 break
     except:
         print("Error al gestionar las interconexiones.")
-        menu_principal.menu_principal()
+        return
 
 if __name__ == "__main__":
-    menu_interconexion()
-    menu_principal.menu_principal()
+    menu_principal.menu()

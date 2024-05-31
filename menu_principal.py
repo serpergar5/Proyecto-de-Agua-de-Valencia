@@ -1,4 +1,4 @@
-import menu_principal ,menu_1, menu_2, menu_3, menu_4 ,menu_5 ,menu_6, menu_7
+import menu_1, menu_2, menu_3, menu_4 ,menu_5 ,menu_6, menu_7
 
 # Muestra el siguiente menú de opciones al usuario.
 def mostrar_menu():
@@ -56,7 +56,7 @@ def procesar_opcion(seleccion):
 
 
 # Muestra el menú principal y procesa la selección del usuario.
-def menu_principal():
+def menu():
     while True:
         mostrar_menu()
         seleccion = solicitar_seleccion()
@@ -65,4 +65,4 @@ def menu_principal():
 
 # Si este script es el punto de entrada, ejecuta la función menu_principal (este archivo).
 if __name__ == "__main__":
-    menu_principal()
+    menu()

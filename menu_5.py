@@ -80,7 +80,7 @@ def simular_dia():
                 del centro["Reserva temporal"]
     except:
         print("Error al simular el día.")
-        menu_principal.menu_principal()
+        return
 
 # Menú de simulación de días
 def menu_dias():
@@ -97,11 +97,11 @@ def menu_dias():
             simular_dia()
             print("Simulación completada para el día " + str(dia +1))
         print("Simulación finalizada. Volviendo al menú principal.")
-        menu_principal.menu_principal
+        return
         
     except:
         print("Error al simular los días.")
-        menu_principal.menu_principal()
+        return
 
 if __name__ == "__main__":
-    menu_dias()
+    menu_principal.menu 
