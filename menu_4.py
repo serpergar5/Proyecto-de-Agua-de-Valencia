@@ -9,13 +9,13 @@ def mostrar_interconexiones(interconexiones):
 
             capacidad_usada_por_origen = {}
             for interc in interconexiones:
-                if interc['origen'] not in capacidad_usada_por_origen:
-                    capacidad_usada_por_origen[interc['origen']] = 0
-                capacidad_usada_por_origen[interc['origen']] += interc['porcentaje']
+                if interc['Origen'] not in capacidad_usada_por_origen:
+                    capacidad_usada_por_origen[interc['Origen']] = 0
+                capacidad_usada_por_origen[interc['Origen']] = int(interc['Porcentaje'])
             
             for interc in interconexiones:
-                if capacidad_usada_por_origen[interc['origen']] < 100:
-                    print(interc['Id'] + ": " + interc['origen'] + " a " + interc['destino'] + " - " + str(interc['porcentaje']) + "%")
+                if capacidad_usada_por_origen[interc['Origen']] < 100:
+                    print(interc['Id'] + ": " + interc['Origen'] + " a " + interc['Destino'] + " - " + str(interc['Porcentaje']) + "%")
         else:
             print("No hay interconexiones registradas.")
             return False
@@ -28,21 +28,16 @@ def mostrar_interconexiones(interconexiones):
 def seleccionar_interconexion(interconexiones):
     try:
         # Si hay interconexiones, se muestran y se solicita el identificador de la interconexión a modificar o eliminar
-        if mostrar_interconexiones(interconexiones):
-            id_interconexion = input(
-                "Introduce el identificador de la interconexión a modificar o eliminar: "
-            )
-            return next(
-                (interc for interc in interconexiones if interc["id"] == id_interconexion),
-                None,
-            )
-        return None
+        id_interconexion = input("Introduce el identificador de la interconexión a modificar o eliminar: ")
+    
+        return (next((interc for interc in interconexiones if interc["Id"] == id_interconexion),None))
+
     except:
         print("Error al seleccionar la interconexión.")
         return
 
 # Modifica una interconexión existente
-def modificar_interconexion(interc):
+def modificar_interconexion(interconexion):
     try:
         # Se solicita el nuevo porcentaje de la interconexión
         nueva_capacidad = int(
@@ -54,7 +49,7 @@ def modificar_interconexion(interc):
             nueva_capacidad = int(
                 input("Introduce el nuevo porcentaje de la interconexión (1-100): ")
             )
-        interc["porcentaje"] = nueva_capacidad
+        interconexion["Porcentaje"] = nueva_capacidad
         print("Interconexión actualizada con éxito.")
     except:
         print("Error al modificar la interconexión.")
@@ -110,8 +105,8 @@ def validar_capacidad_interconexion(id_origen, id_destino, porcentaje, intercone
     try:
         # Se calcula el uso actual de la interconexión y la capacidad disponible
         uso_actual = sum(
-            interc['porcentaje'] for interc in interconexiones
-            if interc['origen'] == id_origen and interc['destino'] == id_destino
+            interc['Porcentaje'] for interc in interconexiones
+            if interc['Origen'] == id_origen and interc['Destino'] == id_destino
         )
         # Si el porcentaje total de interconexión excede el 100%, se solicita un nuevo porcentaje
         capacidad_disponible = 100 - uso_actual
@@ -218,10 +213,10 @@ def menu_interconexion():
                 if mostrar_interconexiones(interconexiones_actuales):
                     interconexion = seleccionar_interconexion(interconexiones_actuales)
                     if interconexion:
-                        if accion == "editar":
-                            modificar_interconexion(interconexion, interconexiones_actuales)
-                        elif accion == "eliminar":
-                            eliminar_interconexion(interconexion, interconexiones_actuales)
+                        if accion == "Editar":
+                            modificar_interconexion(interconexion)
+                        elif accion == "Eliminar":
+                            eliminar_interconexion(interconexiones_actuales, interconexion)
                 # Si no hay interconexiones existentes, se muestra un mensaje de error
                 else:
                     print("No hay interconexiones existentes para modificar o eliminar.")
